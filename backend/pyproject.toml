@@ -1,50 +1,32 @@
 [tool.poetry]
-name = "app"
-version = "0.1.0"
-description = ""
-authors = ["Jordi Sánchez <jsanchez98@uoc.edu>"]
-readme = "README.md"
+name = 'RentAndYou'
+version = '0.1.0'
+description = 'RentAndYou app'
+authors = ['Jordi Sánchez <jordisanchezmora98@gmail.com>']
 
 [tool.poetry.dependencies]
-python = "^3.11"
-uvicorn = "^0.29.0"
-fastapi = "^0.111.0"
-environs = "^11.0.0"
-pre-commit = "^3.7.0"
+python = "^3.10"
+fastapi = '^0.78.0'
+psycopg2 = '^2.9.3'
+uvicorn = { extras = ['standard'], version = '^0.17.6' }
+six = "^1.16.0"
+fastapi-auth-middleware = "^1.0.2"
 
-[tool.isort]
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-line_length = 88
+[tool.poetry.dev-dependencies]
+toml = "^0.10.2"
+yapf = {version = "^0.32.0" }
+mypy = "^0.960"
+pycodestyle = "^2.8.0"
+pytest = "^7.1.2"
+pylint = "^2.13.9"
+SQLAlchemy = { extras = ["mypy"], version = "^1.4.36" }
+
+
+[tool.yapf]
+based_on_style = 'google'
+spaces_before_comment = 2
+split_before_logical_operator = true
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.mypy]
-strict = true
-
-[tool.ruff]
-target-version = "py310"
-
-[tool.ruff.lint]
-select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # pyflakes
-    "I",  # isort
-    "B",  # flake8-bugbear
-    "C4",  # flake8-comprehensions
-    "UP",  # pyupgrade
-]
-ignore = [
-    "E501",  # line too long, handled by black
-    "B008",  # do not perform function calls in argument defaults
-    "W191",  # indentation contains tabs
-    "B904",  # Allow raising exceptions without from e, for HTTPException
-]
-
-[tool.ruff.lint.pyupgrade]
-# Preserve types, even if a file imports `from __future__ import annotations`.
-keep-runtime-typing = true
+requires = ["poetry>=1.0.0"]
+build-backend = "poetry.masonry.api"
