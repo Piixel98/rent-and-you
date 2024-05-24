@@ -17,7 +17,6 @@ class UserReadModel(UserBaseModel):
     is_deleted: bool = Field(example=True)
     created_at: datetime
     updated_at: datetime
-    rents: Optional[list[int]]
 
     class Config:
         orm_mode = True
@@ -34,11 +33,10 @@ class UserReadModel(UserBaseModel):
             address=entity.address,
             city=entity.city,
             phone_number=entity.phone_number,
-            is_superuser=entity.is_superuser,
+            role=entity.role,
             email=entity.email,
             is_active=entity.is_active,
             is_deleted=entity.is_deleted,
             created_at=entity.created_at,
             updated_at=entity.updated_at,
-            rents=entity.rents,
         )

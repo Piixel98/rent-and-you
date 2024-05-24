@@ -3,9 +3,9 @@ from typing import Sequence
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.modules.user.data.models.user import User
 from app.modules.user.domain.entities.user_query_model import UserReadModel
 from app.modules.user.domain.services.user_query_service import UserQueryService
+from app.modules.user.data.models.user import User
 
 
 class UserQueryServiceImpl(UserQueryService):

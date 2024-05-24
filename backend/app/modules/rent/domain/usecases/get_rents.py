@@ -10,7 +10,7 @@ class GetRentsUseCase(BaseUseCase[None, Sequence[RentReadModel]]):
     service: RentQueryService
 
     @abstractmethod
-    def __call__(self, args: None) -> Sequence[RentReadModel]:
+    def __call__(self, **kwargs: None) -> Sequence[RentReadModel]:
         raise NotImplementedError()
 
 
@@ -18,9 +18,12 @@ class GetRentsUseCaseImpl(GetRentsUseCase):
     def __init__(self, service: RentQueryService):
         self.service: RentQueryService = service
 
-    def __call__(self, args: None) -> Sequence[RentReadModel]:
+    def __call__(self, **kwargs) -> Sequence[RentReadModel]:
         try:
-            rents = self.service.findall()
+            if all(value is None for value in kwargs.values()):
+                rents = self.service.findall()
+            else:
+                rents = self.service.findall(**kwargs)
         except Exception:
             raise
 

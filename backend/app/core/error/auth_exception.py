@@ -18,3 +18,8 @@ class InvalidCredentialsError(BaseError):
 class UserNotFoundError(BaseError):
     code = status.HTTP_404_NOT_FOUND
     message = "User does not exist."
+
+
+class InsufficientPermissionsError(BaseError):
+    code = status.HTTP_403_FORBIDDEN
+    message = "Insufficient permissions."

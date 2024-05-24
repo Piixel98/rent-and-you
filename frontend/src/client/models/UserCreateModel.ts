@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { UserRole } from './UserRole';
+
 /**
  * UserCreateModel represents a write model to create a user
  */
@@ -15,7 +17,7 @@ export type UserCreateModel = {
     address: string;
     city: string;
     phone_number?: string;
-    is_superuser?: boolean;
+    role: UserRole;
     hashed_password?: string;
     email: string;
 };

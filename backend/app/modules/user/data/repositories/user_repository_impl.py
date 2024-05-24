@@ -5,8 +5,8 @@ from sqlalchemy.exc import NoResultFound
 from sqlalchemy.orm import Session
 
 from app.modules.user.domain.entities.user_entity import UserEntity
-from app.modules.user.data.models.user import User
 from app.modules.user.domain.repositories.user_repository import UserRepository
+from app.modules.user.data.models.user import User
 
 
 class UserRepositoryImpl(UserRepository):

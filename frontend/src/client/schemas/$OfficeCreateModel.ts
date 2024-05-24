@@ -25,6 +25,9 @@ export const $OfficeCreateModel = {
     type: 'string',
     isRequired: true,
 },
+        geo_location: {
+    type: 'string',
+},
         email: {
     type: 'string',
     isRequired: true,

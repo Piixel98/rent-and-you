@@ -10,9 +10,9 @@ export type OfficeUpdateModel = {
     name?: string;
     phone?: string;
     address?: string;
+    geo_location?: string;
     city?: string;
     postal_code?: string;
-    geo_location?: string;
     email?: string;
     is_active?: boolean;
     is_deleted?: boolean;

@@ -14,10 +14,11 @@ import {
   Grid, Alert, AlertIcon,
 } from '@chakra-ui/react';
 import {UserCreateModel, UserService} from "../../client";
-import {useContext, useState} from "react";
+import {useState} from "react";
 import useCustomToast from "../../hooks/useCustomToast.ts";
 import WelcomeUser from "./WelcomeUser.tsx";
-import {SessionContext} from "../../contexts/SessionContext.tsx";
+import useAuth, {isLoggedIn} from "../../hooks/useAuth.ts";
+import {useNavigate} from "@tanstack/react-router";
 
 function SignupUser() {
     const [documentType, setDocumentType] = useState('dni');
@@ -33,9 +34,9 @@ function SignupUser() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [hashedPassword, setHashedPassword] = useState('');
     const [passwordError, setPasswordError] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const { loggedIn } = useContext(SessionContext);
     const showToast = useCustomToast();
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -55,7 +56,7 @@ function SignupUser() {
         address: address,
         city: city,
         phone_number: phoneNumber,
-        is_superuser: false,
+        role: "user",
         hashed_password: hashedPassword,
         email: email,
       };
@@ -64,8 +65,9 @@ function SignupUser() {
         const response = UserService.createUserApiV1UsersPost({ requestBody: user }).then(
             (response) => {
                 console.log(response);
-                setIsLoggedIn(true);
+                login({ email: email, password: password });
                 showToast('Usuario registrado con éxito', 'Bienvenido al club You!', 'success');
+                navigate({ to: '/welcome' });
             }
         ).catch(
             (error) => {
@@ -89,7 +91,7 @@ function SignupUser() {
       align={'center'}
       justify={'center'}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-            {isLoggedIn ? (
+            {isLoggedIn() ? (
                 <WelcomeUser/>
             ) : (
               <>

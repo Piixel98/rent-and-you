@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.core.database.postgres.database import engine
 from app.dependencies import get_settings
 from app.modules.user.data.models.user import User
+from app.modules.user.domain.entities.user_entity import UserRole
 
 settings = get_settings()
 
@@ -24,7 +25,7 @@ def init_data() -> None:
                 address="",
                 city="",
                 phone_number="",
-                is_superuser=True,
+                role=UserRole.ADMIN,
                 hashed_password="",
                 email=settings.FIRST_SUPERUSER_EMAIL,
             )

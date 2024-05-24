@@ -1,9 +1,6 @@
-import { useQuery } from 'react-query'
 import { useNavigate } from '@tanstack/react-router'
-
-import {
-  UsersService,
-} from '../client'
+import {AuthService, UserService} from "../client";
+import {useState} from "react";
 
 const isLoggedIn = () => {
   return localStorage.getItem('access_token') !== null
@@ -11,29 +8,29 @@ const isLoggedIn = () => {
 
 const useAuth = () => {
   const navigate = useNavigate()
-  const { data: user, isLoading } = useQuery<UserOut | null, Error>(
-    'currentUser',
-    UsersService.readUserMe,
-    {
-      enabled: isLoggedIn(),
-    },
-  )
+  const [user, setUser] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const login = async (data: AccessToken) => {
-    const response = await LoginService.loginAccessToken({
+
+  const login = async (data) => {
+    setIsLoading(true)
+    const response = await AuthService.loginAccessTokenApiV1AuthLoginAccessTokenPost({
       formData: data,
     })
     localStorage.setItem('access_token', response.access_token)
-    navigate({ to: '/' })
+    const userDetails = await UserService.getUsersApiV1UsersGet({email: data.email})
+    setUser(userDetails)
+    setIsLoading(false)
+    navigate({ to: '/welcome' })
   }
 
   const logout = () => {
     localStorage.removeItem('access_token')
-    navigate({ to: '/login' })
+    setUser(null)
+    navigate({ to: '/' })
   }
 
-  // return { login, logout, user, isLoading }
-    return false
+  return { login, logout, user, isLoading }
 }
 
 export { isLoggedIn }

@@ -33,14 +33,3 @@ class RentQueryServiceImpl(RentQueryService):
             return []
 
         return [rent.to_read_model() for rent in result]
-
-    def find_by_vehicle_id(self, vehicle_id: int) -> Sequence[RentReadModel | None]:
-        statement = (
-            select(Rent)
-            .filter_by(vehicle_id=vehicle_id, is_deleted=False)
-            .order_by(Rent.created_at.desc())
-        )
-
-        result = self.session.execute(statement).scalars().all()
-
-        return [rent.to_read_model() for rent in result]

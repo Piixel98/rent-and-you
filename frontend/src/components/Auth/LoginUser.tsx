@@ -13,33 +13,39 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import useCustomToast from "../../hooks/useCustomToast.ts";
-import {useContext, useState} from "react";
+import {useState} from "react";
 import WelcomeUser from "./WelcomeUser.tsx";
-import {SessionContext} from "../../contexts/SessionContext.tsx";
+import useAuth, {isLoggedIn} from "../../hooks/useAuth.ts";
+import {useNavigate} from "@tanstack/react-router";
 
 function LoginUser() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { loggedIn } = useContext(SessionContext);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const toast = useCustomToast();
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      await login({ username: email, password: password }).catch();
       toast('Sesión iniciada!', 'Has iniciado sesión con éxito.', 'success');
-      setIsLoggedIn(true);
     } catch (error) {
-      toast('Error iniciando sesión', 'Intenta de nuevo más tarde.', 'error');
+      if (error.status === 400) {
+        toast('Error iniciando sesión', 'Verifica tus credenciales.', 'error');
+      } else {
+        toast('Error iniciando sesión', 'Intenta de nuevo más tarde.', 'error');
+      }
     }
   };
+
   return (
     <Flex
       minH={'100vh'}
       align={'center'}
       justify={'center'}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-        {isLoggedIn ? (
+        {isLoggedIn() ? (
                 <WelcomeUser />
             ) : (
               <>

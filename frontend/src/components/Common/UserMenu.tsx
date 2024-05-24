@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Box,
   IconButton,
@@ -9,15 +8,15 @@ import {
 } from '@chakra-ui/react'
 import {FaUserCircle} from 'react-icons/fa'
 import { FiLogOut, FiUser } from 'react-icons/fi'
-
 import { Link } from '@tanstack/react-router'
+import useAuth, {isLoggedIn} from '../../hooks/useAuth';
+import React from "react";
 
 const UserMenu: React.FC = () => {
-  const isLoggedIn = 1;
+  const { user, logout } = useAuth();
 
   return (
     <>
-      {/* Desktop */}
       <Box
         display={{ base: 'none', md: 'block' }}
         position="fixed"
@@ -34,8 +33,9 @@ const UserMenu: React.FC = () => {
             isRound
           />
           <MenuList>
-            {isLoggedIn ? (
+            {isLoggedIn() ? (
               <>
+              {user?.role === 'admin' && <MenuItem as={Link} to="/admin">Admin Panel</MenuItem>}
                 <MenuItem icon={<FiUser fontSize="18px" />} as={Link} to="/admin">
                   Admin Panel
                 </MenuItem>
@@ -43,6 +43,7 @@ const UserMenu: React.FC = () => {
                   icon={<FiLogOut fontSize="18px" />}
                   color="ui.danger"
                   fontWeight="bold"
+                  onClick={logout}
                 >
                   Log out
                 </MenuItem>
@@ -51,9 +52,6 @@ const UserMenu: React.FC = () => {
                 <>
                   <MenuItem icon={<FiUser fontSize="18px" />} as={Link} to="/login">
                     Iniciar sesión
-                  </MenuItem>
-                  <MenuItem icon={<FiUser fontSize="18px" />} as={Link} to="/signup">
-                    Registrarse
                   </MenuItem>
                 </>
             )}

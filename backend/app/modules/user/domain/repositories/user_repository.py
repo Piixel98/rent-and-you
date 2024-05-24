@@ -1,5 +1,3 @@
-from abc import abstractmethod
-
 from app.core.repositories.base_repository import BaseRepository
 from app.modules.user.domain.entities.user_entity import UserEntity
 
@@ -7,10 +5,4 @@ from app.modules.user.domain.entities.user_entity import UserEntity
 class UserRepository(BaseRepository[UserEntity]):
     """UserRepository defines a repositories interface for User entity"""
 
-    @abstractmethod
-    def find_by_email(self, email: str) -> UserEntity | None:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def find_by_document_id(self, document_id: str) -> UserEntity | None:
-        raise NotImplementedError()
+    pass

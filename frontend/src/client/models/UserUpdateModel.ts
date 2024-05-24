@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { UserRole } from './UserRole';
+
 /**
  * UserUpdateModel represents a write model to update a user
  */
@@ -15,9 +17,9 @@ export type UserUpdateModel = {
     address?: string;
     city?: string;
     phone_number?: string;
-    is_superuser?: boolean;
+    role?: UserRole;
     hashed_password?: string;
-    email: string;
+    email?: string;
     is_active?: boolean;
     is_deleted?: boolean;
 };

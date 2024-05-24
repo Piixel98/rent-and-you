@@ -2,7 +2,7 @@ import {Flex, Link, Text, Image} from "@chakra-ui/react";
 
 function WelcomeUser() {
   return (
-    <Flex flexDirection="column" align="center" justify="center">
+    <Flex flexDirection="column" align="center" justify="center" mt={"100"}>
         <Text color="green.400" fontSize={'4xl'} fontWeight="bold">Bienvenido al club You!</Text>
         <Link href="/search" color={'green.400'}><Text fontSize={'lg'} color={'gray.600'}>Reservar ahora! ✌️</Text></Link>
         <Image

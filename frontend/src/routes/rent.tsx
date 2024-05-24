@@ -28,7 +28,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import useCustomToast from '../hooks/useCustomToast';
 import {FaCogs, FaUsers} from "react-icons/fa";
 import {IoSpeedometerOutline} from "react-icons/io5";
-import {SessionContext} from "../contexts/SessionContext.tsx";
+import {isLoggedIn} from "../hooks/useAuth.ts";
+import {Simulate} from "react-dom/test-utils";
 
 export const Route = createFileRoute('/rent')({
   component: Rent,
@@ -37,14 +38,13 @@ export const Route = createFileRoute('/rent')({
 
 const getImageSrc = (image) => {
     if (!image || image == "" || !image.includes('https')) {
-        return NoVehicleImage; // return a default image if image is null or undefined
+        return NoVehicleImage;
     }
     return image;
 }
 
 function Rent() {
   const queryParams = new URLSearchParams(window.location.search);
-  const { loggedIn } = useContext(SessionContext);
   const office_id = queryParams.get('office_id');
   const pickup_date = queryParams.get('pickup_date');
   const vehicle_id = queryParams.get('vehicle_id');
@@ -54,26 +54,24 @@ function Rent() {
   const [vehicle, setVehicle] = useState(null);
   const [office, setOffice] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
   const showToast = useCustomToast();
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm<RentCreateModel>({
     mode: 'onBlur',
     criteriaMode: 'all',
     defaultValues: {
-      ammount: 0,
-      pickup_date: '2024-12-12',
-      return_date: '2024-12-12',
-      office_id: 1,
-      vehicle_id: 1,
+      ammount: vehicle ? vehicle.price_per_day * parseInt(total_days) : 0,
+      pickup_date: pickup_date,
+      return_date: return_date,
+      office_id: parseInt(office_id),
+      vehicle_id: parseInt(vehicle_id),
       user_id: 0,
-      total_days: 0,
+      total_days: parseInt(total_days),
     },
   });
 
@@ -85,7 +83,6 @@ function Rent() {
     onSuccess: () => {
       showToast('Reserva creada!', 'Reserva creada correctamente.', 'success');
       reset();
-      setIsOpen(false);
     },
     onError: (err: ApiError) => {
       const errDetail = err.body.detail;
@@ -143,7 +140,7 @@ function Rent() {
             <Box as="form" borderWidth="1px" borderRadius="lg" p={5} onSubmit={handleSubmit(onSubmit)}>
               <VStack spacing={4} align="stretch">
                 <Text fontSize="xl" fontWeight="bold">Datos conductor:</Text>
-                 {loggedIn ? (
+                 {isLoggedIn() ? (
                      <>
                      <FormControl id="office_id">
                       <FormLabel>Empresa</FormLabel>
@@ -196,7 +193,7 @@ function Rent() {
                       </Link>
                     </Box>
                 )}
-                <Text fontSize="xl" fontWeight="bold" mt={loggedIn ? "0" : "120%"}>Total:</Text>
+                <Text fontSize="xl" fontWeight="bold" mt={isLoggedIn() ? "0" : "120%"}>Total:</Text>
                 <FormControl id="total">
                   {loading ? (
                     <Spinner size="xl" />
@@ -213,12 +210,12 @@ function Rent() {
                   )}
                 </FormControl>
                 <Button
-                  colorScheme={vehicle && vehicle.is_rented ? "gray" : "green"}
+                  colorScheme={"green"}
                   mt={4}
                   type="submit"
-                  isDisabled={vehicle ? vehicle.is_rented !== false : true}
+                  isDisabled={false}
                 >
-                  {vehicle && vehicle.is_rented && !loading ? "Vehículo no disponible" : "Solicitar reserva"}
+                  Solicitar reserva
                 </Button>
               </VStack>
             </Box>

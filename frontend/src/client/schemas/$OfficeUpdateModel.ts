@@ -14,6 +14,9 @@ export const $OfficeUpdateModel = {
         address: {
     type: 'string',
 },
+        geo_location: {
+    type: 'string',
+},
         city: {
     type: 'string',
 },

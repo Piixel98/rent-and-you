@@ -29,8 +29,11 @@ export const $UserReadModel = {
         phone_number: {
     type: 'string',
 },
-        is_superuser: {
-    type: 'boolean',
+        role: {
+    type: 'all-of',
+    contains: [{
+    type: 'UserRole',
+}],
 },
         hashed_password: {
     type: 'string',
@@ -58,12 +61,6 @@ export const $UserReadModel = {
     type: 'string',
     isRequired: true,
     format: 'date-time',
-},
-        rents: {
-    type: 'array',
-    contains: {
-    type: 'number',
-},
 },
     },
 } as const;

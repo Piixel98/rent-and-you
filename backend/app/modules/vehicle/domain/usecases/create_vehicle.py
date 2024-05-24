@@ -31,8 +31,8 @@ class CreateVehicleUseCaseImpl(CreateVehicleUseCase):
 
         vehicle = VehicleEntity(id_=None, **data.dict())
 
-        existing_vehicle = self.unit_of_work.repository.find_by_license_plate(
-            data.license_plate
+        existing_vehicle = self.unit_of_work.repository.findall(
+            license_plate=data.license_plate
         )
         if existing_vehicle:
             raise VehicleAlreadyExistsError()
@@ -45,8 +45,8 @@ class CreateVehicleUseCaseImpl(CreateVehicleUseCase):
 
         self.unit_of_work.commit()
 
-        created_vehicle = self.unit_of_work.repository.find_by_license_plate(
-            data.license_plate
+        created_vehicle = self.unit_of_work.repository.findall(
+            license_plate=data.license_plate
         )
 
         if not created_vehicle:

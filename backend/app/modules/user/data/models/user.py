@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import TYPE_CHECKING
 
 from sqlalchemy import Column, Boolean, String
@@ -18,6 +19,11 @@ class DocumentType:
     passport = "passport"
 
 
+class UserRole(str, Enum):
+    USER = "user"
+    ADMIN = "admin"
+
+
 class User(Base):
     """
     User DTO is an object associated with user entity
@@ -33,7 +39,7 @@ class User(Base):
     address: Mapped[str] | str = Column(String)
     city: Mapped[str] | str = Column(String)
     phone_number: Mapped[str] | str = Column(String)
-    is_superuser: Mapped[bool] = Column(Boolean, default=False)
+    role: Mapped[UserRole] = Column(String)
     email: Mapped[str] | str = Column(String, index=True)
     hashed_password: Mapped[str] | str = Column(String)
     is_active: Mapped[bool] | bool | None = Column(Boolean, default=True)
@@ -51,7 +57,7 @@ class User(Base):
             address=self.address,
             city=self.city,
             phone_number=self.phone_number,
-            is_superuser=self.is_superuser,
+            role=self.role,
             hashed_password=self.hashed_password,
             email=self.email,
             is_active=self.is_active,
@@ -71,7 +77,7 @@ class User(Base):
             "address": self.address,
             "city": self.city,
             "phone_number": self.phone_number,
-            "is_superuser": self.is_superuser,
+            "role": self.role,
             "hashed_password": self.hashed_password,
             "email": self.email,
             "is_active": self.is_active,
@@ -91,7 +97,7 @@ class User(Base):
             address=self.address,
             city=self.city,
             phone_number=self.phone_number,
-            is_superuser=self.is_superuser,
+            role=self.role,
             hashed_password=self.hashed_password,
             email=self.email,
             is_active=self.is_active,
@@ -112,7 +118,7 @@ class User(Base):
             address=user.address,
             city=user.city,
             phone_number=user.phone_number,
-            is_superuser=user.is_superuser,
+            role=user.role,
             hashed_password=user.hashed_password,
             email=user.email,
             is_active=user.is_active,
@@ -120,3 +126,17 @@ class User(Base):
             updated_at=user.updated_at,
             is_deleted=user.is_deleted,
         )
+
+    @property
+    def is_admin(self) -> bool:
+        return self.role == UserRole.ADMIN
+
+    @property
+    def is_user(self) -> bool:
+        return self.role == UserRole.USER
+
+    @property
+    def password_hash(self) -> str:
+        from app.core.auth import get_password_hash
+
+        return get_password_hash(self.password_hash)

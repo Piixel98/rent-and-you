@@ -25,12 +25,13 @@ class CreateUserUseCaseImpl(CreateUserUseCase):
         (data,) = args
 
         user = UserEntity(id_=None, **data.dict())
+        user.hashed_password = user.password_to_hash(data.hashed_password)
 
-        existing_user = self.unit_of_work.repository.find_by_document_id(
-            data.document_id
+        existing_user = self.unit_of_work.repository.findall(
+            document_id=data.document_id
         )
-        if existing_user is not None:
-            raise UserAlreadyExistsError()
+        if len(existing_user) > 0:
+            raise UserAlreadyExistsError
 
         try:
             self.unit_of_work.repository.create(user)
@@ -40,8 +41,8 @@ class CreateUserUseCaseImpl(CreateUserUseCase):
 
         self.unit_of_work.commit()
 
-        created_user = self.unit_of_work.repository.find_by_document_id(
-            data.document_id
+        created_user = self.unit_of_work.repository.findall(
+            document_id=data.document_id
         )
 
-        return UserReadModel.from_entity(cast(UserEntity, created_user))
+        return UserReadModel.from_entity(cast(UserEntity, created_user[0]))

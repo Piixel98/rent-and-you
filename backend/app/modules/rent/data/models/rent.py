@@ -4,15 +4,14 @@ from typing import TYPE_CHECKING
 from sqlalchemy import Column, Float, ForeignKey, DateTime, Integer
 from sqlalchemy.orm import Mapped, relationship
 
-
 from app.modules.rent.domain.entities.rent_query_model import RentReadModel
 from app.core.models.postgres.models import Base
 from app.modules.rent.domain.entities.rent_entity import RentEntity
-from app.modules.user.data.models.user import User
 
 if TYPE_CHECKING:
     from app.modules.vehicle.data.models.vehicle import Vehicle
     from app.modules.office.data.models.office import Office
+    from app.modules.user.data.models.user import User
 
 
 class Rent(Base):

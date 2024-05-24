@@ -29,15 +29,14 @@ export const $UserUpdateModel = {
         phone_number: {
     type: 'string',
 },
-        is_superuser: {
-    type: 'boolean',
+        role: {
+    type: 'UserRole',
 },
         hashed_password: {
     type: 'string',
 },
         email: {
     type: 'string',
-    isRequired: true,
 },
         is_active: {
     type: 'boolean',

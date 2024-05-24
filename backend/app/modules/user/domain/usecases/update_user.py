@@ -29,7 +29,7 @@ class UpdateUserUseCaseImpl(UpdateUserUseCase):
         )
 
         if existing_user is None:
-            raise UserNotFoundError()
+            raise UserNotFoundError
 
         update_entity = existing_user.update_entity(
             update_data, lambda user_data: update_data.dict(exclude_unset=True)

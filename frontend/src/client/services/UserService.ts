@@ -18,9 +18,11 @@ export class UserService {
      * @throws ApiError
      */
     public static getUsersApiV1UsersGet({
+email,
 offset,
 limit = 100,
 }: {
+email?: string,
 offset?: number,
 limit?: number,
 }): CancelablePromise<Array<UserReadModel>> {
@@ -28,6 +30,7 @@ limit?: number,
             method: 'GET',
             url: ':8000/api/v1/users/',
             query: {
+                'email': email,
                 'offset': offset,
                 'limit': limit,
             },

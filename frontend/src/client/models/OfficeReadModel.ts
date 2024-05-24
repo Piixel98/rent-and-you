@@ -12,10 +12,9 @@ export type OfficeReadModel = {
     address: string;
     postal_code: string;
     city: string;
+    geo_location?: string;
     email: string;
-    geo_location: string;
     id_: number;
-    is_active: boolean;
     is_deleted: boolean;
     created_at: string;
     updated_at: string;

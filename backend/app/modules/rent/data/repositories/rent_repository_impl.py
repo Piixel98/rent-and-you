@@ -1,7 +1,6 @@
 from typing import Sequence
 
-from sqlalchemy import select, update, delete
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy import update, delete
 from sqlalchemy.orm import Session
 
 from app.modules.rent.domain.entities.rent_entity import RentEntity
@@ -39,18 +38,6 @@ class RentRepositoryImpl(RentRepository):
             return None
 
         return result.to_entity()
-
-    def find_by_vehicle_id(self, vehicle_id: int) -> Sequence[RentEntity | None]:
-        statement = select(Rent).where(
-            Rent.is_deleted is False and Rent.vehicle_id == vehicle_id
-        )
-
-        try:
-            result: Sequence[Rent] = self.session.execute(statement).scalars().all()
-        except NoResultFound:
-            return []
-
-        return [rent.to_entity() for rent in result]
 
     def update(self, entity: RentEntity) -> RentEntity:
         rent = Rent.from_entity(entity)

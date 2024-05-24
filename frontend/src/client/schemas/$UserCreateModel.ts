@@ -35,8 +35,9 @@ export const $UserCreateModel = {
         phone_number: {
     type: 'string',
 },
-        is_superuser: {
-    type: 'boolean',
+        role: {
+    type: 'UserRole',
+    isRequired: true,
 },
         hashed_password: {
     type: 'string',

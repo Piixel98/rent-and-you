@@ -1,6 +1,6 @@
 from pydantic import Field
 
-from app.modules.user.domain.entities.user_common_model import UserBaseModel
+from app.modules.user.domain.entities.user_common_model import UserBaseModel, UserRole
 
 
 class UserCreateModel(UserBaseModel):
@@ -14,8 +14,8 @@ class UserCreateModel(UserBaseModel):
     postal_code: str
     address: str
     city: str
+    role: UserRole
     phone_number: str | None
-    is_superuser: bool | None = Field(default=False)
     hashed_password: str | None
     email: str = Field(example="test@test.com")
 
@@ -33,8 +33,8 @@ class UserUpdateModel(UserBaseModel):
     address: str | None
     city: str | None
     phone_number: str | None
-    is_superuser: bool = Field(default=False)
     hashed_password: str | None
-    email: str = Field(example="test@test.com")
+    role: UserRole | None
+    email: str | None = Field(example="test@test.com")
     is_active: bool | None = Field(example=True)
     is_deleted: bool | None = Field(example=True)

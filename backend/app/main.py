@@ -12,6 +12,7 @@ from app.modules.rent.presentation.routes import rent_router
 from app.modules.vehicle.presentation.routes import vehicle_router
 from app.modules.user.presentation.routes import user_router
 from app.modules.office.presentation.routes import office_router
+from app.modules.auth.presentation.routes import auth_router
 
 
 settings = get_settings()
@@ -24,6 +25,7 @@ app.include_router(vehicle_router)
 app.include_router(rent_router)
 app.include_router(office_router)
 app.include_router(user_router)
+app.include_router(auth_router)
 
 # CORS Configuration
 app.add_middleware(

@@ -7,7 +7,12 @@ from app.modules.vehicle.domain.usecases.get_vehicles import GetVehiclesUseCase
 router = APIRouter()
 
 
-@router.get("/", response_model=list[VehicleReadModel], status_code=status.HTTP_200_OK)
+@router.get(
+    "/",
+    # dependencies=[Depends(get_current_active_superuser)],
+    response_model=list[VehicleReadModel],
+    status_code=status.HTTP_200_OK,
+)
 def get_vehicles(
     office_id: int = None,
     offset: int = 0,

@@ -25,16 +25,15 @@ export const $OfficeReadModel = {
     type: 'string',
     isRequired: true,
 },
+        geo_location: {
+    type: 'string',
+},
         email: {
     type: 'string',
     isRequired: true,
 },
         id_: {
     type: 'number',
-    isRequired: true,
-},
-        is_active: {
-    type: 'boolean',
     isRequired: true,
 },
         is_deleted: {

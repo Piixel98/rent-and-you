@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { UserRole } from './UserRole';
+
 /**
  * UserReadModel represents data structure as a read model
  */
@@ -15,7 +17,7 @@ export type UserReadModel = {
     address?: string;
     city?: string;
     phone_number?: string;
-    is_superuser?: boolean;
+    role?: UserRole;
     hashed_password?: string;
     email?: string;
     id_?: number;
@@ -23,5 +25,4 @@ export type UserReadModel = {
     is_deleted: boolean;
     created_at: string;
     updated_at: string;
-    rents?: Array<number>;
 };

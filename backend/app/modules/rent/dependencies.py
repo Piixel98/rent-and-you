@@ -20,10 +20,7 @@ from app.modules.rent.domain.usecases.get_rents import (
     GetRentsUseCaseImpl,
     GetRentsUseCase,
 )
-from app.modules.rent.domain.usecases.get_rents_vehicle import (
-    GetRentsByVehicleUseCaseImpl,
-    GetRentsByVehicleUseCase,
-)
+
 from app.modules.rent.domain.usecases.update_rent import (
     UpdateRentUseCase,
     UpdateRentUseCaseImpl,
@@ -65,12 +62,6 @@ def get_rents_use_case(
     rent_query_service: RentQueryService = Depends(get_rent_query_service),
 ) -> GetRentsUseCase:
     return GetRentsUseCaseImpl(rent_query_service)
-
-
-def get_rents_by_vehicle_use_case(
-    rent_query_service: RentQueryService = Depends(get_rent_query_service),
-) -> GetRentsByVehicleUseCase:
-    return GetRentsByVehicleUseCaseImpl(rent_query_service)
 
 
 def get_create_rent_use_case(

@@ -4,5 +4,3 @@ from app.modules.user.domain.entities.user_query_model import UserReadModel
 
 class UserQueryService(QueryService[UserReadModel]):
     """ """
-
-    pass

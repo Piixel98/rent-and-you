@@ -1,11 +1,17 @@
 import copy
 from datetime import datetime
+from enum import Enum
 from typing import Any, Callable, TYPE_CHECKING
 
 from app.core.error.invalid_operation_exception import InvalidOperationError
 
 if TYPE_CHECKING:
     from app.modules.user.domain.entities.user_command_model import UserUpdateModel
+
+
+class UserRole(str, Enum):
+    ADMIN = "admin"
+    USER = "user"
 
 
 class UserEntity(object):
@@ -26,12 +32,11 @@ class UserEntity(object):
         email: str,
         city: str,
         hashed_password: str,
-        is_superuser: bool = False,
+        role: UserRole = UserRole.USER,
         is_active: bool | None = True,
         created_at: datetime | None = None,
         updated_at: datetime | None = None,
         is_deleted: bool | None = False,
-        rents: list[int] | None = None,
     ):
         self.id_ = id_
         self.document_type = document_type
@@ -42,14 +47,13 @@ class UserEntity(object):
         self.address = address
         self.city = city
         self.phone_number = phone_number
-        self.is_superuser = is_superuser
+        self.role = role
         self.hashed_password = hashed_password
         self.email = email
         self.is_active = is_active
         self.created_at = created_at
         self.updated_at = updated_at
         self.is_deleted = is_deleted
-        self.rents: list[int] = [] if rents is None else rents
 
     def update_entity(
         self,
@@ -81,3 +85,9 @@ class UserEntity(object):
 
     def to_popo(self) -> object:
         return self.__dict__
+
+    @staticmethod
+    def password_to_hash(password: str) -> str:
+        from app.core.auth import get_password_hash
+
+        return get_password_hash(password)

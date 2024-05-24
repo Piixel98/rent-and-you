@@ -22,5 +22,5 @@ def get_rents(
     limit: int = 100,
     get_rents_use_case_: GetRentsUseCase = Depends(get_rents_use_case),
 ):
-    rent = get_rents_use_case_(None)
+    rent = get_rents_use_case_(offset=None, limit=None)
     return rent

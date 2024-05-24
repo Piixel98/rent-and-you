@@ -1,4 +1,15 @@
+from enum import Enum
+
 from pydantic import BaseModel, Field
+
+
+class UserRole(str, Enum):
+    """
+    User role
+    """
+
+    USER = "user"
+    ADMIN = "admin"
 
 
 class UserBaseModel(BaseModel):
@@ -14,6 +25,6 @@ class UserBaseModel(BaseModel):
     address: str | None
     city: str | None
     phone_number: str | None
-    is_superuser: bool | None = Field(default=False)
+    role: UserRole | None = Field(default=UserRole.USER)
     hashed_password: str | None
     email: str | None = Field(example="test@test.com")

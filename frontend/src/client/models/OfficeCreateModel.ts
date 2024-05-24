@@ -11,7 +11,7 @@ export type OfficeCreateModel = {
     phone: string;
     address: string;
     postal_code: string;
-    geo_location?: string;
     city: string;
+    geo_location?: string;
     email: string;
 };
