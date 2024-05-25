@@ -1,6 +1,6 @@
 import {createFileRoute} from '@tanstack/react-router'
 import {useEffect, useState} from "react";
-import {RentService, RentCreateModel} from "../../client";
+import {RentService, RentCreateModel, RentReadModel, RentUpdateModel} from "../../client";
 import useCustomToast from '../../hooks/useCustomToast';
 import AdminTable from "../../components/Admin/AdminTable.tsx";
 
@@ -9,13 +9,12 @@ export const Route = createFileRoute('/admin/rents')({
 })
 
 function RentsAdmin() {
-  const [rents, setRents] = useState([]);
-  const [newRent, setNewRent] = useState({ /* initial rent properties */ });
+  const [rents, setRents] = useState<RentReadModel[]>([]);
   const showToast = useCustomToast();
 
   useEffect(() => {
     RentService.getRentsApiV1RentsGet({ offset: 0, limit: 100 })
-      .then(response => {
+      .then((response: RentReadModel[]) => {
         setRents(response);
       })
       .catch(error => {
@@ -23,62 +22,57 @@ function RentsAdmin() {
       });
   }, []);
 
-  const handleAddRent = () => {
-  RentService.createRentApiV1RentsPost({ requestBody: newRent })
-    .then(response => {
-      setRents([...rents, response]);
-      setNewRent({
-        vehicle_id: 0,
-        user_id: 0,
-        office_id: 0,
-        pickup_date: '',
-        return_date: '',
-        ammount: 0
+  const handleAddRent = (data: RentCreateModel) => {
+      RentService.createRentApiV1RentsPost({ requestBody: data })
+      .then((response: RentReadModel) => {
+          setRents(prevRents => [...prevRents, response]);
+          showToast('¡Reserva creada!', 'Reserva creada exitosamente.', 'success');
+      })
+      .catch(error => {
+        console.error('There was an error!', error);
+        showToast('¡Ops! No se pudo crear la reserva.', 'Intenta de nuevo más tarde.', 'error');
       });
-      showToast('¡Alquiler añadido!', 'Alquiler creado exitosamente.', 'success');
-    })
-    .catch(error => {
-      console.error('Hubo un error!', error);
-      showToast('¡Ops! No se pudo crear el alquiler.', 'Intenta de nuevo más tarde.', 'error');
-    });
-};
+    };
 
-  const handleDeleteRent = (id) => {
+  const handleDeleteRent = (id: number) => {
     RentService.deleteRentApiV1RentsIdDelete({ id })
       .then(() => {
         setRents(rents.filter(rent => rent.id_ !== id));
-        showToast('¡Alquiler eliminado!', 'Alquiler eliminado exitosamente.', 'success');
+        showToast('¡Alquiler eliminado!', 'Reserva eliminada exitosamente.', 'success');
       })
       .catch(error => {
-        showToast('¡Ops! No se pudo eliminar el alquiler.', 'Intenta de nuevo más tarde.', 'error');
+        console.error('There was an error!', error);
+        showToast('¡Ops! No se pudo eliminar la reserva.', 'Intenta de nuevo más tarde.', 'error');
       });
   };
 
-  const handleUpdateRent = (id, updatedData) => {
+  const handleUpdateRent = (id: number, updatedData: RentUpdateModel) => {
       if (updatedData) {
         RentService.updateRentApiV1RentsIdPatch({ id, requestBody: updatedData })
-          .then(response => {
+          .then((response: RentReadModel) => {
             setRents(rents.map(rent => (rent.id_ === id ? response : rent)));
-            showToast('¡Alquiler actualizado!!', 'Alquiler actualizado exitosamente.', 'success');
+            showToast('¡Reserva actualizada!', 'Reserva actualizada exitosamente.', 'success');
           })
           .catch(error => {
-            showToast('¡Ops! No se pudo actualizar el alquiler.', 'Intenta de nuevo más tarde.', 'error');
+            console.error('There was an error!', error);
+            showToast('¡Ops! No se pudo actualizar la reserva.', 'Intenta de nuevo más tarde.', 'error');
           });
       }
     };
 
   const rentModel: RentCreateModel = {
-      vehicle_id: 0,
-      user_id: 0,
-      office_id: 0,
-      pickup_date: '',
-      return_date: '',
-      ammount: 0
+      vehicle_id: 1,
+      user_id: 1,
+      office_id: 1,
+      pickup_date: new Date().toISOString(),
+      return_date: new Date().toISOString(),
+      amount: 1,
+      total_days: 1
     };
 
   return (
     <>
-      <AdminTable table_caption="Rents" headers={Object.keys(rentModel)} key="id_" data={rents} handleDelete={handleDeleteRent}
+      <AdminTable table_caption="Reservas" headers={Object.keys(rentModel)} key="id_" data={rents} handleDelete={handleDeleteRent}
                   handleUpdate={handleUpdateRent} handleAdd={handleAddRent}></AdminTable>
     </>
   )

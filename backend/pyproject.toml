@@ -1,7 +1,7 @@
 [tool.poetry]
 name = 'RentAndYou'
 version = '0.1.0'
-description = 'RentAndYou app'
+description = 'RentAndYou App'
 authors = ['Jordi Sánchez <jordisanchezmora98@gmail.com>']
 
 [tool.poetry.dependencies]
@@ -11,6 +11,7 @@ psycopg2 = '^2.9.3'
 uvicorn = { extras = ['standard'], version = '^0.17.6' }
 six = "^1.16.0"
 fastapi-auth-middleware = "^1.0.2"
+passlib = "^1.7.4"
 
 [tool.poetry.dev-dependencies]
 toml = "^0.10.2"

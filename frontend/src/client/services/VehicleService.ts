@@ -28,7 +28,7 @@ limit?: number,
 }): CancelablePromise<Array<VehicleReadModel>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: ':8000/api/v1/vehicles/',
+            url: '/api/v1/vehicles/',
             query: {
                 'office_id': officeId,
                 'offset': offset,
@@ -52,7 +52,7 @@ requestBody: VehicleCreateModel,
 }): CancelablePromise<VehicleReadModel> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: ':8000/api/v1/vehicles/',
+            url: '/api/v1/vehicles/',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -74,7 +74,7 @@ id: number,
 }): CancelablePromise<VehicleReadModel> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: ':8000/api/v1/vehicles/{id_}/',
+            url: '/api/v1/vehicles/{id_}/',
             path: {
                 'id_': id,
             },
@@ -97,7 +97,7 @@ id: number,
 }): CancelablePromise<VehicleReadModel> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: ':8000/api/v1/vehicles/{id_}/',
+            url: '/api/v1/vehicles/{id_}/',
             path: {
                 'id_': id,
             },
@@ -122,7 +122,7 @@ requestBody: VehicleUpdateModel,
 }): CancelablePromise<VehicleReadModel> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: ':8000/api/v1/vehicles/{id_}/',
+            url: '/api/v1/vehicles/{id_}/',
             path: {
                 'id_': id,
             },

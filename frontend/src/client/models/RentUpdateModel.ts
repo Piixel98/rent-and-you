@@ -8,7 +8,7 @@
  */
 export type RentUpdateModel = {
     id_: number;
-    ammount?: number;
+    amount?: number;
     total_days?: number;
     is_active?: boolean;
     is_deleted?: boolean;

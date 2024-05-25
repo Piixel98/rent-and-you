@@ -16,7 +16,7 @@ class RentEntity(object):
     def __init__(
         self,
         id_: int | None,
-        ammount: float,
+        amount: float,
         total_days: int,
         pickup_date: datetime,
         return_date: datetime,
@@ -28,7 +28,7 @@ class RentEntity(object):
         is_deleted: bool | None = False,
     ):
         self.id_ = id_
-        self.ammount = ammount
+        self.amount = amount
         self.total_days = total_days
         self.pickup_date = pickup_date
         self.return_date = return_date

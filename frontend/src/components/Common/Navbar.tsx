@@ -6,7 +6,6 @@ import {
   Stack,
   Collapse,
   Icon,
-  Link,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -20,6 +19,7 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from '@chakra-ui/icons';
+import {Link} from '@tanstack/react-router';
 
 export default function NavBarWithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
@@ -62,7 +62,9 @@ export default function NavBarWithSubnavigation() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }} alignItems="center">
-          <Link href="/"
+          <Flex
+            as={Link}
+            to={"/"}
             border="2px"
             borderColor="green.500"
             borderRadius="full"
@@ -79,7 +81,7 @@ export default function NavBarWithSubnavigation() {
             >
               Rent&You
             </Text>
-          </Link>
+          </Flex>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10} alignItems="center">
             <DesktopNav />
@@ -105,9 +107,10 @@ const DesktopNav = () => {
         <Box key={navItem.label}>
           <Popover trigger={'hover'} placement={'bottom-start'}>
             <PopoverTrigger>
-              <Link
+              <Flex
+                as={Link}
+                to={navItem.href}
                 p={2}
-                href={navItem.href ?? '#'}
                 fontSize={'sm'}
                 fontWeight={500}
                 color={linkColor}
@@ -116,7 +119,7 @@ const DesktopNav = () => {
                   color: linkHoverColor,
                 }}>
                 {navItem.label}
-              </Link>
+              </Flex>
             </PopoverTrigger>
 
             {navItem.children && (
@@ -143,8 +146,9 @@ const DesktopNav = () => {
 
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
   return (
-    <Link
-      href={href}
+    <Flex
+      as={Link}
+      to={href}
       role={'group'}
       display={'block'}
       p={2}
@@ -171,7 +175,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
           <Icon color={'green.400'} w={5} h={5} as={ChevronRightIcon} />
         </Flex>
       </Stack>
-    </Link>
+    </Flex>
   );
 };
 
@@ -196,7 +200,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
       <Flex
         py={2}
         as={Link}
-        href={href ?? '#'}
+        to={href}
         justify={'space-between'}
         align={'center'}
         _hover={{
@@ -228,9 +232,9 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
           align={'start'}>
           {children &&
             children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
+              <Flex key={child.label} py={2} as={Link} to={child.href}>
                 {child.label}
-              </Link>
+              </Flex>
             ))}
         </Stack>
       </Collapse>
@@ -278,7 +282,7 @@ const NAV_ITEMS: Array<NavItem> = [
   },
   {
     label: 'Oficinas',
-    href: '/search',
+    href: '/offices',
   },
   {
     label: 'Contacto',

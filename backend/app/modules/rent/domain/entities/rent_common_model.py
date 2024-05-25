@@ -8,7 +8,7 @@ class RentBaseModel(BaseModel):
     RentBase common fields
     """
 
-    ammount: float
+    amount: float
     total_days: int
     pickup_date: datetime
     return_date: datetime

@@ -3,7 +3,7 @@ import {
     Heading,
     VStack,
 } from '@chakra-ui/react';
-import {createFileRoute, Navigate} from '@tanstack/react-router';
+import {createFileRoute,  redirect, useNavigate} from '@tanstack/react-router';
 import OfficesAdmin from "./admin/offices.tsx";
 import VehiclesAdmin from "./admin/vehicles.tsx";
 import RentsAdmin from "./admin/rents.tsx";
@@ -11,20 +11,25 @@ import UsersAdmin from "./admin/users.tsx";
 import NavBarWithSubnavigation from "../components/Common/Navbar.tsx";
 import UserMenu from "../components/Common/UserMenu.tsx";
 import Footer from "../components/Common/Footer.tsx";
-import {isLoggedIn} from "../hooks/useAuth.ts";
-import useCustomToast from "../hooks/useCustomToast.ts";
+import {isLoggedIn, getRole} from "../hooks/useAuth.ts";
 
 
 export const Route = createFileRoute('/admin')({
-  component: AdminPanel,
+    component: AdminPanel,
+    beforeLoad: async () => {
+    if (!isLoggedIn()) {
+      throw redirect({
+        to: '/',
+      })
+    }
+  },
 });
 
 function AdminPanel() {
-    const toast = useCustomToast();
+    const navigate = useNavigate()
 
-    if (!isLoggedIn()) {
-        toast('Acceso denegado', 'No tienes permisos para acceder a esta página.', 'error');
-        return <Navigate to="/search" />;
+    if (getRole() !== 'admin') {
+        navigate({to: '/search'});
     }
 
   return (
@@ -35,10 +40,18 @@ function AdminPanel() {
         Admin Panel
       </Heading>
       <VStack mb="60" spacing={8} align="stretch">
-        <OfficesAdmin />
-        <VehiclesAdmin />
-        <UsersAdmin />
-        <RentsAdmin />
+          {isLoggedIn() ? (
+              <>
+                  <Heading size="md" textAlign="center">Panel de administración</Heading>
+                  <OfficesAdmin/>
+                  <VehiclesAdmin/>
+                  <UsersAdmin/>
+                  <RentsAdmin/>
+              </>
+          ) : (
+              <Heading size="md" textAlign="center">Inicia sesión para acceder al panel de administración</Heading>
+              )
+          }
       </VStack>
         <Footer />
     </Container>

@@ -29,7 +29,7 @@ limit?: number,
 }): CancelablePromise<Array<OfficeReadModel>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: ':8000/api/v1/offices/',
+            url: '/api/v1/offices/',
             query: {
                 'city': city,
                 'offset': offset,
@@ -53,7 +53,7 @@ requestBody: OfficeCreateModel,
 }): CancelablePromise<OfficeReadModel> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: ':8000/api/v1/offices/',
+            url: '/api/v1/offices/',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -75,7 +75,7 @@ id: number,
 }): CancelablePromise<OfficeReadModel> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: ':8000/api/v1/offices/{id_}/',
+            url: '/api/v1/offices/{id_}/',
             path: {
                 'id_': id,
             },
@@ -98,7 +98,7 @@ id: number,
 }): CancelablePromise<OfficeReadModel> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: ':8000/api/v1/offices/{id_}/',
+            url: '/api/v1/offices/{id_}/',
             path: {
                 'id_': id,
             },
@@ -123,7 +123,7 @@ requestBody: OfficeUpdateModel,
 }): CancelablePromise<OfficeReadModel> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: ':8000/api/v1/offices/{id_}/',
+            url: '/api/v1/offices/{id_}/',
             path: {
                 'id_': id,
             },
@@ -156,7 +156,7 @@ limit?: number,
 }): CancelablePromise<Array<VehicleReadModel>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: ':8000/api/v1/offices/{office_id}/vehicles/available/',
+            url: '/api/v1/offices/{office_id}/vehicles/available/',
             path: {
                 'office_id': officeId,
             },

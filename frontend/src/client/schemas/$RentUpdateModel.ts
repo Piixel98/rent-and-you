@@ -9,7 +9,7 @@ export const $RentUpdateModel = {
     type: 'number',
     isRequired: true,
 },
-        ammount: {
+        amount: {
     type: 'number',
 },
         total_days: {

@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   Box,
   Button,
@@ -14,64 +14,79 @@ import {
   GridItem,
   Spinner,
   Flex,
-  Icon, Center, Stack, chakra, Avatar
+  Icon, Center, Stack, Avatar
 } from "@chakra-ui/react";
-import {createFileRoute, Link} from '@tanstack/react-router';
+import {createFileRoute, Link, useNavigate} from '@tanstack/react-router';
 import UserMenu from "../components/Common/UserMenu.tsx";
 import Footer from "../components/Common/Footer.tsx";
 import "react-datepicker/dist/react-datepicker.css";
 import NavBarWithSubnavigation from "../components/Common/Navbar.tsx";
 import NoVehicleImage from "../assets/images/no-vehicle.svg";
-import {OfficeService, VehicleService, ApiError, RentCreateModel, RentService } from "../client";
+import { parse, formatISO } from 'date-fns';
+import {
+  OfficeService,
+  VehicleService,
+  ApiError,
+  RentCreateModel,
+  RentService,
+  VehicleReadModel,
+  OfficeReadModel
+} from "../client";
 import {SubmitHandler, useForm} from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import useCustomToast from '../hooks/useCustomToast';
 import {FaCogs, FaUsers} from "react-icons/fa";
 import {IoSpeedometerOutline} from "react-icons/io5";
 import {isLoggedIn} from "../hooks/useAuth.ts";
-import {Simulate} from "react-dom/test-utils";
 
 export const Route = createFileRoute('/rent')({
   component: Rent,
   beforeLoad: () => {},
 });
 
-const getImageSrc = (image) => {
+const getImageSrc = (image: string | null) => {
     if (!image || image == "" || !image.includes('https')) {
         return NoVehicleImage;
     }
     return image;
 }
 
+const convertToISO = (dateString: string | null) => {
+  if (!dateString) {
+    return "";
+  }
+  const parsedDate = parse(dateString, "dd/MM/yyyy HH:mm", new Date());
+  return formatISO(parsedDate);
+}
+
 function Rent() {
   const queryParams = new URLSearchParams(window.location.search);
-  const office_id = queryParams.get('office_id');
-  const pickup_date = queryParams.get('pickup_date');
-  const vehicle_id = queryParams.get('vehicle_id');
-  const return_date = queryParams.get('return_date');
-  const total_days = queryParams.get('total_days');
+  const office_id = queryParams.get('office_id') || "";
+  const pickup_date = queryParams.get('pickup_date') || "";
+  const vehicle_id = queryParams.get('vehicle_id') || "";
+  const return_date = queryParams.get('return_date') || "";
+  const total_days = queryParams.get('total_days') || "";
 
-  const [vehicle, setVehicle] = useState(null);
-  const [office, setOffice] = useState(null);
+  const [vehicle, setVehicle] = useState<VehicleReadModel | null>(null);
+  const [office, setOffice] = useState<OfficeReadModel | null>(null);
   const [loading, setLoading] = useState(true);
   const queryClient = useQueryClient();
   const showToast = useCustomToast();
+  const navigate = useNavigate()
 
   const {
-    register,
     handleSubmit,
-    formState: { errors, isSubmitting },
   } = useForm<RentCreateModel>({
     mode: 'onBlur',
     criteriaMode: 'all',
     defaultValues: {
-      ammount: vehicle ? vehicle.price_per_day * parseInt(total_days) : 0,
-      pickup_date: pickup_date,
-      return_date: return_date,
+      amount: vehicle ? vehicle?.price_per_day ?? 0 * parseInt(total_days) : 0,
+      pickup_date: convertToISO(pickup_date),
+      return_date: convertToISO(return_date),
       office_id: parseInt(office_id),
       vehicle_id: parseInt(vehicle_id),
       user_id: 0,
-      total_days: parseInt(total_days),
+      total_days: total_days ? parseInt(total_days) : 0
     },
   });
 
@@ -82,7 +97,7 @@ function Rent() {
   const mutation = useMutation(addRent, {
     onSuccess: () => {
       showToast('Reserva creada!', 'Reserva creada correctamente.', 'success');
-      reset();
+      navigate({ to: "/search" });
     },
     onError: (err: ApiError) => {
       const errDetail = err.body.detail;
@@ -101,10 +116,10 @@ function Rent() {
     let fetchVehicles;
     let fetchOffice;
     if (vehicle_id) {
-      fetchVehicles = VehicleService.getVehicleApiV1VehiclesIdGet({ id: parseInt(vehicle_id), offset: 0, limit: 100 });
+      fetchVehicles = VehicleService.getVehicleApiV1VehiclesIdGet({ id: parseInt(vehicle_id)});
     }
     if (office_id!==null) {
-      fetchOffice = OfficeService.getOfficeApiV1OfficesIdGet({ id: parseInt(office_id), offset: 0, limit: 100 });
+      fetchOffice = OfficeService.getOfficeApiV1OfficesIdGet({ id: parseInt(office_id)});
     }
 
     if (fetchVehicles) {
@@ -179,7 +194,7 @@ function Rent() {
                     </FormControl>
                      </>
                 ) : (
-                    <Box direction={"column"} align="center">
+                    <Box>
                       <Link to="/login">
                         <Box border="2px" borderRadius="md" borderColor="green.500" p={2}>
                         <Stack direction="column" align="center" spacing={2}>
@@ -200,9 +215,9 @@ function Rent() {
                   ) : vehicle ? (
                     <>
                       {total_days == null || total_days === "" ? (
-                        <Input type="text" readOnly value={`${vehicle.price_per_day}.00 €`} />
+                        <Input type="text" readOnly value={`${vehicle?.price_per_day}.00 €`} />
                       ) : (
-                        <Input type="text" readOnly value={`${vehicle.price_per_day * parseInt(total_days)}.00 €`} />
+                        <Input type="text" readOnly value={`${vehicle?.price_per_day || 0 * parseInt(total_days)}.00 €`} />
                       )}
                     </>
                   ) : (
@@ -224,7 +239,7 @@ function Rent() {
                 <Spinner size="xl" />
                   ) : vehicle ? (
                     <VStack spacing={4} align="stretch">
-                      <Image objectFit="cover" width="100%" height="200px" src={getImageSrc(vehicle.image_url)} alt="Foto del vehículo" borderRadius="md" />
+                      <Image objectFit="cover" width="100%" height="200px" src={getImageSrc(vehicle?.image_url || "")} alt="Foto del vehículo" borderRadius="md" />
                       <HStack spacing={4}>
                         <Center>
                           <Icon as={FaUsers} />

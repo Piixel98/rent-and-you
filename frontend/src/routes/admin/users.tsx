@@ -1,6 +1,6 @@
 import {createFileRoute} from '@tanstack/react-router'
 import {useEffect, useState} from "react";
-import {UserService, UserReadModel} from "../../client";
+import {UserService, UserReadModel, UserCreateModel, UserUpdateModel} from "../../client";
 import useCustomToast from '../../hooks/useCustomToast';
 import AdminTable from "../../components/Admin/AdminTable.tsx";
 
@@ -8,11 +8,8 @@ export const Route = createFileRoute('/admin/users')({
   component: UsersAdmin,
 })
 
-
 function UsersAdmin() {
-  const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState({ name: '', phone: '', address: '', postal_code: '', city:'', email: ''});
-  const [updatedUser, setUpdatedUser] = useState(null);
+  const [users, setUsers] = useState<UserReadModel[]>([]);
   const showToast = useCustomToast();
 
   useEffect(() => {
@@ -25,7 +22,7 @@ function UsersAdmin() {
       });
   }, []);
 
-  const handleAddUser = (data) => {
+  const handleAddUser = (data: UserCreateModel) => {
     UserService.createUserApiV1UsersPost({ requestBody: data })
       .then(response => {
         setUsers([...users, response]);
@@ -37,18 +34,19 @@ function UsersAdmin() {
       });
   };
 
-  const handleDeleteUser = (id) => {
+  const handleDeleteUser = (id: number) => {
     UserService.deleteUserApiV1UsersIdDelete({ id })
       .then(() => {
         setUsers(users.filter(user => user.id_ !== id));
         showToast('Usuario eliminado!', 'Usuario eliminado correctamente.', 'success');
       })
       .catch(error => {
+        console.error('There was an error!', error);
         showToast('Ops! No se pudo eliminar el usuario.', 'Intenta de nuevo más tarde.', 'error');
       });
   };
 
-  const handleUpdateUser = (id, updatedData) => {
+  const handleUpdateUser = (id: number, updatedData: UserUpdateModel) => {
     if (updatedData) {
       UserService.updateUserApiV1UsersIdPatch({ id, requestBody: updatedData })
         .then(response => {
@@ -56,6 +54,7 @@ function UsersAdmin() {
           showToast('Usuario actualizado!', 'Usuario actualizado correctamente.', 'success');
         })
         .catch(error => {
+          console.error('There was an error!', error);
           showToast('Ops! No se pudo actualizar el usuario.', 'Intenta de nuevo más tarde.', 'error');
         });
     }
@@ -76,12 +75,12 @@ function UsersAdmin() {
     is_deleted: false,
     created_at: '',
     updated_at: '',
-    rents: [],
+    role: 'user'
   };
 
   return (
     <>
-      <AdminTable table_caption="Users" headers={Object.keys(userModel)} key="id_" data={users} handleDelete={handleDeleteUser}
+      <AdminTable table_caption="Usuarios" headers={Object.keys(userModel)} key="id_" data={users} handleDelete={handleDeleteUser}
                   handleUpdate={handleUpdateUser} handleAdd={handleAddUser}></AdminTable>
     </>
   )

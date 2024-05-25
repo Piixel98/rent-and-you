@@ -15,7 +15,7 @@ class RentUpdateModel(BaseModel):
     """
 
     id_: int
-    ammount: float | None = Field(example=100.0)
+    amount: float | None = Field(example=100.0)
     total_days: int | None = Field(example=5)
     is_active: bool | None = Field(example=True)
     is_deleted: bool | None = Field(example=True)

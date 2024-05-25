@@ -4,7 +4,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import UserMenu from "../components/Common/UserMenu";
 import Footer from "../components/Common/Footer";
 import NavBarWithSubnavigation from "../components/Common/Navbar";
-import { VehicleService } from "../client";
+import { VehicleService, VehicleReadModel } from "../client";
 import VehiclesGridWithPagination from "../components/Vehicle/VehiclesGridWithPagination";
 import DrawerFilter from "../components/Vehicle/DrawerFilter.tsx";
 
@@ -15,19 +15,11 @@ export const Route = createFileRoute('/vehicles')({
 
 function Vehicles() {
   const queryParams = new URLSearchParams(window.location.search);
-  const office_id = queryParams.get('office_id');
-  const pickup_date = queryParams.get('pickup_date');
-  const return_date = queryParams.get('return_date');
-  const total_days = queryParams.get('total_days');
-  const [vehicles, setVehicles] = useState([]);
-  const [originalVehicles, setOriginalVehicles] = useState([]);
-
-  const [filters, setFilters] = useState({
-    gearbox: '',
-    body_type: '',
-    passengers: '',
-    is_rented: false,
-  });
+  const office_id = queryParams.get('office_id') || "";
+  const pickup_date = queryParams.get('pickup_date') || "";
+  const return_date = queryParams.get('return_date') || "";
+  const total_days = parseInt(queryParams.get('total_days') || "") || 0;
+  const [vehicles, setVehicles] = useState<VehicleReadModel[]>([]);
 
   useEffect(() => {
     const fetchVehicles = office_id && office_id !== ""
@@ -36,7 +28,6 @@ function Vehicles() {
 
     fetchVehicles
       .then(response => {
-        setOriginalVehicles(response);
         setVehicles(response);
       })
       .catch(error => {
@@ -44,14 +35,13 @@ function Vehicles() {
       });
   }, [office_id]);
 
-  const handleFilterChange = (newFilters) => {
+  const handleFilterChange = (newFilters: any) => {
     const updatedFilters = { ...newFilters };
     Object.keys(updatedFilters).forEach(key => {
       if (updatedFilters[key] === 'Todos' || updatedFilters[key] === '') {
         delete updatedFilters[key];
       }
     });
-    setFilters(updatedFilters);
 
     VehicleService.getVehiclesApiV1VehiclesGet({ offset: 0, limit: 100, ...updatedFilters })
       .then(response => {

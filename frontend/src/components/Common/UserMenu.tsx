@@ -9,12 +9,11 @@ import {
 import {FaUserCircle} from 'react-icons/fa'
 import { FiLogOut, FiUser } from 'react-icons/fi'
 import { Link } from '@tanstack/react-router'
-import useAuth, {isLoggedIn} from '../../hooks/useAuth';
-import React from "react";
+import useAuth, {getRole, isLoggedIn} from '../../hooks/useAuth';
 
-const UserMenu: React.FC = () => {
-  const { user, logout } = useAuth();
 
+const UserMenu = () => {
+  const { logout } = useAuth()
   return (
     <>
       <Box
@@ -35,14 +34,15 @@ const UserMenu: React.FC = () => {
           <MenuList>
             {isLoggedIn() ? (
               <>
-              {user?.role === 'admin' && <MenuItem as={Link} to="/admin">Admin Panel</MenuItem>}
-                <MenuItem icon={<FiUser fontSize="18px" />} as={Link} to="/admin">
-                  Admin Panel
-                </MenuItem>
+                {getRole() === 'admin' && (
+                  <MenuItem icon={<FiUser fontSize="18px" />} as={Link} to="/admin">Admin Panel</MenuItem>
+                  )
+                }
                 <MenuItem
                   icon={<FiLogOut fontSize="18px" />}
                   color="ui.danger"
                   fontWeight="bold"
+                  as={Link} to="/"
                   onClick={logout}
                 >
                   Log out

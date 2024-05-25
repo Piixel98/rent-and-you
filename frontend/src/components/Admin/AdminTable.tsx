@@ -17,14 +17,18 @@ interface AdminTableProps {
   data: any[];
   headers: string[];
   handleAdd: (row: any) => void;
-  handleDelete: (id: string) => void;
-  handleUpdate: (id: string, row: any) => void;
+  handleDelete: (id: number) => void;
+  handleUpdate: (id: number, row: any) => void;
+}
+
+interface RowData {
+  [key: string]: any;
 }
 
 function AdminTable({ table_caption, data, headers, handleAdd, handleDelete, handleUpdate }: AdminTableProps) {
   const [showAddRow, setShowAddRow] = useState(false);
-  const [newRow, setNewRow] = useState({});
-  const [editing, setEditing] = useState({});
+  const [newRow, setNewRow] = useState<RowData>({});
+  const [editing, setEditing] = useState<RowData>({});
   const [editingRowId, setEditingRowId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);

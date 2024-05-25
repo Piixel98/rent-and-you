@@ -1,10 +1,19 @@
 import {Box, Button, Flex, SimpleGrid, Stack} from "@chakra-ui/react";
 import VehicleCard from "./VehicleCard.tsx";
 import {useState} from "react";
+import {VehicleReadModel} from "../../client";
 
-function VehiclesGridWithPagination({vehicles, office_id, pickup_date, return_date, total_days}) {
+interface VehiclesGridWithPaginationProps {
+  vehicles: VehicleReadModel[];
+  office_id: string;
+  pickup_date: string;
+  return_date: string;
+  total_days: number;
+}
+
+function VehiclesGridWithPagination({vehicles, office_id, pickup_date, return_date, total_days}: VehiclesGridWithPaginationProps) {
     const [currentPage, setCurrentPage] = useState(0);
-    const handlePageClick = (selectedPage) => {
+    const handlePageClick = (selectedPage: number) => {
         setCurrentPage(selectedPage);
     }
     const vehiclesPerPage = 8;

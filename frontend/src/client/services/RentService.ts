@@ -26,7 +26,7 @@ limit?: number,
 }): CancelablePromise<Array<RentReadModel>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: ':8000/api/v1/rents/',
+            url: '/api/v1/rents/',
             query: {
                 'offset': offset,
                 'limit': limit,
@@ -50,7 +50,7 @@ requestBody: RentCreateModel,
 }): CancelablePromise<RentReadModel> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: ':8000/api/v1/rents/',
+            url: '/api/v1/rents/',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -72,7 +72,7 @@ id: number,
 }): CancelablePromise<RentReadModel> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: ':8000/api/v1/rents/{id_}/',
+            url: '/api/v1/rents/{id_}/',
             path: {
                 'id_': id,
             },
@@ -95,7 +95,7 @@ id: number,
 }): CancelablePromise<RentReadModel> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: ':8000/api/v1/rents/{id_}/',
+            url: '/api/v1/rents/{id_}/',
             path: {
                 'id_': id,
             },
@@ -120,7 +120,7 @@ requestBody: RentUpdateModel,
 }): CancelablePromise<RentReadModel> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: ':8000/api/v1/rents/{id_}/',
+            url: '/api/v1/rents/{id_}/',
             path: {
                 'id_': id,
             },

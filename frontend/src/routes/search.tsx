@@ -15,7 +15,7 @@ import {
 import { createFileRoute } from '@tanstack/react-router';
 import UserMenu from "../components/Common/UserMenu.tsx";
 import Footer from "../components/Common/Footer.tsx";
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { OfficeService, OfficeReadModel } from '../client';
 import logoBarcelona from '../assets/images/barcelona-card.jpg';
@@ -41,7 +41,7 @@ function Search() {
   const [pickupOffice, setPickupOffice] = useState('');
   const [pickupDate, setPickupDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
-  const [offices, setOffices] = useState([]);
+  const [offices, setOffices] = useState<OfficeReadModel[]>([]);
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -88,7 +88,8 @@ function Search() {
   const [hoveredBox, setHoveredBox] = useState(null);
   const navigate = useNavigate();
 
-  const handleMouseEnter = (boxIndex) => {
+  const handleMouseEnter = (boxIndex: number) => {
+    // @ts-ignore
     setHoveredBox(boxIndex);
   };
 
@@ -96,14 +97,18 @@ function Search() {
     setHoveredBox(null);
   };
 
-  const handleClick = (link) => {
+  const handleClick = (link: string) => {
     const today = new Date();
-    const returnDate = addDays(today, 3); // Fecha dentro de tres días
+    const returnDate = addDays(today, 3);
 
     const formattedPickupDate = format(today, 'dd/MM/yyyy HH:mm');
     const formattedReturnDate = format(returnDate, 'dd/MM/yyyy HH:mm');
 
-    const urlWithDates = `${link}?pickup_date=${formattedPickupDate}&return_date=${formattedReturnDate}&total_days=3&office_id=1`;
+    const urlWithDates = `${link}?
+    pickup_date=${formattedPickupDate}
+    &return_date=${formattedReturnDate}
+    &total_days=3
+    &office_id=1`;
 
     navigate({ to: urlWithDates });
   };
@@ -143,7 +148,8 @@ function Search() {
                       showTimeSelect
                       required
                       dateFormat="dd/MM/yyyy HH:mm"
-                      onChange={date => {
+                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        const date = new Date(event.target.value);
                         setPickupDate(date);
                         if (date > returnDate) {
                           setReturnDate(date);
@@ -167,7 +173,8 @@ function Search() {
                       showTimeSelect
                       required
                       dateFormat="dd/MM/yyyy HH:mm"
-                      onChange={date => {
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        const date = new Date(event.target.value);
                         setReturnDate(date);
                         if (date < pickupDate) {
                           setPickupDate(date);

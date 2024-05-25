@@ -21,7 +21,7 @@ const DrawerFilter: React.FC<DrawerFilterProps> = ({ onFilterChange }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [localFilters, setLocalFilters] = useState({});
 
-  const handleFilterChange = (filters) => {
+  const handleFilterChange = (filters: any) => {
     setLocalFilters(filters);
   };
 

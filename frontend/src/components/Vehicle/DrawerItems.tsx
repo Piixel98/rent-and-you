@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import {Box, Checkbox, FormControl, FormLabel, Input, Select, Td} from '@chakra-ui/react';
-import { VehicleService } from '../../client';
+import React, { useState } from 'react';
+import {Box, Checkbox, FormControl, FormLabel, Select} from '@chakra-ui/react';
 
 interface DrawerItemsProps {
   onClose?: () => void;
   onFilterChange: (filters: any) => void;
 }
 
-const DrawerItems: React.FC<DrawerItemsProps> = ({ onFilterChange }) => {
+const DrawerItems: React.FC<DrawerItemsProps> = () => {
   const [gearbox, setGearbox] = useState('Todos');
   const [body_type, setBodyType] = useState('Todos');
   const [passengers, setPassengers] = useState('Todos');

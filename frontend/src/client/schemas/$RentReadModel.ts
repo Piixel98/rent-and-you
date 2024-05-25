@@ -5,7 +5,7 @@
 export const $RentReadModel = {
     description: `RentReadModel represents data structure as a read model`,
     properties: {
-        ammount: {
+        amount: {
     type: 'number',
     isRequired: true,
 },

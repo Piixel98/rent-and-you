@@ -3,9 +3,10 @@ import {
   Container,
   Stack,
   Text,
-  Link,
-  useColorModeValue,
+  useColorModeValue, Flex,
 } from '@chakra-ui/react';
+import { Link } from '@tanstack/react-router';
+
 export default function Footer() {
   return (
     <Box
@@ -24,9 +25,9 @@ export default function Footer() {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}>
         <Stack direction={'row'} spacing={6}>
-          <Link href={'/'}>Sobre nosotros</Link>
-          <Link href={'/privacy'}>Política de privacidad</Link>
-          <Link href={'/contact'}>Contactar</Link>
+          <Flex as={Link} to={'/'}>Sobre nosotros</Flex>
+           <Flex as={Link} to={'/privacy'}>Política de privacidad</Flex>
+           <Flex as={Link} to={'/contact'}>Contactar</Flex>
         </Stack>
         <Text>© 2024 Rent&You</Text>
       </Container>

@@ -1,17 +1,17 @@
 import {
-  Flex,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  Link,
-  Button,
-  Heading,
-  Text,
-  useColorModeValue,
-  Select,
-  Grid, Alert, AlertIcon,
+    Flex,
+    Box,
+    FormControl,
+    FormLabel,
+    Input,
+    Stack,
+    Link,
+    Button,
+    Heading,
+    Text,
+    useColorModeValue,
+    Select,
+    Grid, Alert, AlertIcon, InputGroup, InputRightElement,
 } from '@chakra-ui/react';
 import {UserCreateModel, UserService} from "../../client";
 import {useState} from "react";
@@ -19,6 +19,7 @@ import useCustomToast from "../../hooks/useCustomToast.ts";
 import WelcomeUser from "./WelcomeUser.tsx";
 import useAuth, {isLoggedIn} from "../../hooks/useAuth.ts";
 import {useNavigate} from "@tanstack/react-router";
+import {ViewIcon, ViewOffIcon} from "@chakra-ui/icons";
 
 function SignupUser() {
     const [documentType, setDocumentType] = useState('dni');
@@ -34,11 +35,15 @@ function SignupUser() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [hashedPassword, setHashedPassword] = useState('');
     const [passwordError, setPasswordError] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
+    const handlePasswordVisibility = () => setShowPassword(!showPassword);
+    const handlePasswordConfirmVisibility = () => setShowPasswordConfirmation(!showPasswordConfirmation);
     const showToast = useCustomToast();
     const { login } = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
       if (password !== confirmPassword) {
         setPasswordError(true);
@@ -62,16 +67,18 @@ function SignupUser() {
       };
 
       try {
-        const response = UserService.createUserApiV1UsersPost({ requestBody: user }).then(
+        UserService.createUserApiV1UsersPost({ requestBody: user }).then(
             (response) => {
-                console.log(response);
-                login({ email: email, password: password });
-                showToast('Usuario registrado con éxito', 'Bienvenido al club You!', 'success');
-                navigate({ to: '/welcome' });
+                if (response) {
+                    console.log(response);
+                    login({username: email, password: password}).then(r => console.debug(r));
+                    showToast('Usuario registrado con éxito', 'Bienvenido al club You!', 'success');
+                    navigate({to: '/welcome'}).then(r => console.debug(r));
+                }
             }
         ).catch(
             (error) => {
-                if (error.status === 409) {
+                if (error && error.status === 409) {
                   showToast('Error al registrar usuario', 'El documento ya está en uso.', 'error');
                 } else {
                   console.error('There was an error!', error);
@@ -164,11 +171,37 @@ function SignupUser() {
                     <Grid templateColumns="repeat(2, 1fr)" gap={6}>
                       <FormControl id="password">
                         <FormLabel>Contraseña</FormLabel>
-                        <Input focusBorderColor="green.400" required type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <InputGroup>
+                            <Input
+                              focusBorderColor="green.400"
+                              required
+                              type={showPassword ? 'text' : 'password'}
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <InputRightElement width="4.5rem">
+                              <Button h="1.75rem" size="sm" onClick={handlePasswordVisibility}>
+                                {showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                              </Button>
+                            </InputRightElement>
+                        </InputGroup>
                       </FormControl>
                       <FormControl id="confirmPassword">
-                        <FormLabel>Repetir Contraseña</FormLabel>
-                        <Input focusBorderColor="green.400" required type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                        <FormLabel>Repetir contraseña</FormLabel>
+                        <InputGroup>
+                            <Input
+                              focusBorderColor="green.400"
+                              required
+                              type={showPasswordConfirmation ? 'text' : 'password'}
+                              value={confirmPassword}
+                              onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                            <InputRightElement width="4.5rem">
+                              <Button h="1.75rem" size="sm" onClick={handlePasswordConfirmVisibility}>
+                                {showPasswordConfirmation ? <ViewOffIcon /> : <ViewIcon />}
+                              </Button>
+                            </InputRightElement>
+                        </InputGroup>
                       </FormControl>
                     </Grid>
                     <Box mt="auto"/>

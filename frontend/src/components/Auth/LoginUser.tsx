@@ -10,28 +10,31 @@ import {
   Button,
   Heading,
   Text,
-  useColorModeValue,
+  useColorModeValue, InputGroup, InputRightElement,
 } from '@chakra-ui/react';
 import useCustomToast from "../../hooks/useCustomToast.ts";
-import {useState} from "react";
+import React, {useState} from "react";
 import WelcomeUser from "./WelcomeUser.tsx";
 import useAuth, {isLoggedIn} from "../../hooks/useAuth.ts";
-import {useNavigate} from "@tanstack/react-router";
+import {ViewIcon, ViewOffIcon} from "@chakra-ui/icons";
 
 function LoginUser() {
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useAuth();
-  const navigate = useNavigate();
+
+  const handlePasswordVisibility = () => setShowPassword(!showPassword);
 
   const toast = useCustomToast();
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     try {
       e.preventDefault();
       await login({ username: email, password: password }).catch();
       toast('Sesión iniciada!', 'Has iniciado sesión con éxito.', 'success');
     } catch (error) {
-      if (error.status === 400) {
+      const err = error as { status?: number };
+      if (err.status === 400) {
         toast('Error iniciando sesión', 'Verifica tus credenciales.', 'error');
       } else {
         toast('Error iniciando sesión', 'Intenta de nuevo más tarde.', 'error');
@@ -69,7 +72,20 @@ function LoginUser() {
                     </FormControl>
                     <FormControl id="password">
                       <FormLabel>Contraseña</FormLabel>
-                      <Input focusBorderColor="green.400" required type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                      <InputGroup>
+                        <Input
+                          focusBorderColor="green.400"
+                          required
+                          type={showPassword ? 'text' : 'password'}
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <InputRightElement width="4.5rem">
+                          <Button h="1.75rem" size="sm" onClick={handlePasswordVisibility}>
+                            {showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                          </Button>
+                        </InputRightElement>
+                      </InputGroup>
                     </FormControl>
                     <Stack spacing={2}>
                       <Stack

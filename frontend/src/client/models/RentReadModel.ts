@@ -7,7 +7,7 @@
  * RentReadModel represents data structure as a read model
  */
 export type RentReadModel = {
-    ammount: number;
+    amount: number;
     total_days: number;
     pickup_date: string;
     return_date: string;

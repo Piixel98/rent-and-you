@@ -7,7 +7,7 @@
  * RentCreateModel represents a write model to create a rent
  */
 export type RentCreateModel = {
-    ammount: number;
+    amount: number;
     total_days: number;
     pickup_date: string;
     return_date: string;

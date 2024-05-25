@@ -12,7 +12,7 @@ class RentReadModel(RentBaseModel):
     """
 
     id_: int
-    ammount: float
+    amount: float
     total_days: int
     pickup_date: datetime
     return_date: datetime
@@ -30,7 +30,7 @@ class RentReadModel(RentBaseModel):
     def from_entity(entity: RentEntity) -> "RentReadModel":
         return RentReadModel(
             id_=entity.id_,
-            ammount=entity.ammount,
+            amount=entity.amount,
             total_days=entity.total_days,
             pickup_date=entity.pickup_date,
             return_date=entity.return_date,

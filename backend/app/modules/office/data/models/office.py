@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Column, Boolean, String
+from sqlalchemy import Column, String
 from sqlalchemy.orm import Mapped, relationship
 
 from app.modules.office.domain.entities.office_query_model import OfficeReadModel
@@ -25,7 +25,6 @@ class Office(Base):
     postal_code: Mapped[str] | str = Column(String)
     city: Mapped[str] | str = Column(String)
     geo_location: Mapped[str] | str = Column(String)
-    is_active: Mapped[bool] | bool | None = Column(Boolean, default=True)
     rents: Mapped["Rent"] = relationship("Rent", back_populates="office")
 
     def to_entity(self) -> OfficeEntity:

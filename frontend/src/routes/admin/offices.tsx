@@ -10,14 +10,12 @@ export const Route = createFileRoute('/admin/offices')({
 
 
 function OfficesAdmin() {
-  const [offices, setOffices] = useState([]);
-  const [newOffice, setNewOffice] = useState({ name: '', phone: '', address: '', postal_code: '', city:'', email: '', is_active: true, is_deleted: false });
-  const [updatedOffice, setUpdatedOffice] = useState(null);
+  const [offices, setOffices] = useState<OfficeReadModel[]>([]);
   const showToast = useCustomToast();
 
   useEffect(() => {
     OfficeService.getOfficesApiV1OfficesGet({ offset: 0, limit: 100 })
-      .then(response => {
+      .then((response: OfficeReadModel[]) => {
         setOffices(response);
       })
       .catch(error => {
@@ -25,10 +23,10 @@ function OfficesAdmin() {
       });
   }, []);
 
-  const handleAddOffice = (data) => {
+  const handleAddOffice = (data: OfficeReadModel) => {
     OfficeService.createOfficeApiV1OfficesPost({ requestBody: data })
-      .then(response => {
-        setOffices([...offices, response]);
+      .then((response: OfficeReadModel) => {
+        setOffices(prevOffices => [...prevOffices, response]);
         showToast('Oficina añadida!', 'Oficina creada correctamente.', 'success');
       })
       .catch(error => {
@@ -37,25 +35,27 @@ function OfficesAdmin() {
       });
   };
 
-  const handleDeleteOffice = (id) => {
+  const handleDeleteOffice = (id: number) => {
     OfficeService.deleteOfficeApiV1OfficesIdDelete({ id })
       .then(() => {
         setOffices(offices.filter(office => office.id_ !== id));
         showToast('Oficina eliminada!', 'Oficina eliminada correctamente.', 'success');
       })
       .catch(error => {
+        console.error('There was an error!', error);
         showToast('Ops! No se pudo eliminar la oficina.', 'Intenta de nuevo más tarde.', 'error');
       });
   };
 
-  const handleUpdateOffice = (id, updatedData) => {
+  const handleUpdateOffice = (id: number, updatedData: OfficeReadModel) => {
     if (updatedData) {
       OfficeService.updateOfficeApiV1OfficesIdPatch({ id, requestBody: updatedData })
-        .then(response => {
+        .then((response: OfficeReadModel) => {
           setOffices(offices.map(office => (office.id_ === id ? response : office)));
           showToast('Oficina actualizada!', 'Oficina actualizada correctamente.', 'success');
         })
         .catch(error => {
+          console.error('There was an error!', error);
           showToast('Ops! No se pudo actualizar la oficina.', 'Intenta de nuevo más tarde.', 'error');
         });
     }
@@ -69,7 +69,6 @@ function OfficesAdmin() {
     email: '',
     id_: 0,
     city: '',
-    is_active: false,
     is_deleted: false,
     created_at: '',
     updated_at: '',
@@ -78,7 +77,7 @@ function OfficesAdmin() {
 
   return (
     <>
-      <AdminTable table_caption="Offices" headers={Object.keys(officeModel)} key="id_" data={offices} handleDelete={handleDeleteOffice}
+      <AdminTable table_caption="Oficinas" headers={Object.keys(officeModel)} key="id_" data={offices} handleDelete={handleDeleteOffice}
                   handleUpdate={handleUpdateOffice} handleAdd={handleAddOffice}></AdminTable>
     </>
   )

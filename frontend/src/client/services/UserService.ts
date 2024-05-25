@@ -28,7 +28,7 @@ limit?: number,
 }): CancelablePromise<Array<UserReadModel>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: ':8000/api/v1/users/',
+            url: '/api/v1/users/',
             query: {
                 'email': email,
                 'offset': offset,
@@ -52,7 +52,7 @@ requestBody: UserCreateModel,
 }): CancelablePromise<UserReadModel> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: ':8000/api/v1/users/',
+            url: '/api/v1/users/',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -74,7 +74,7 @@ id: number,
 }): CancelablePromise<UserReadModel> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: ':8000/api/v1/users/{id_}/',
+            url: '/api/v1/users/{id_}/',
             path: {
                 'id_': id,
             },
@@ -97,7 +97,7 @@ id: number,
 }): CancelablePromise<UserReadModel> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: ':8000/api/v1/users/{id_}/',
+            url: '/api/v1/users/{id_}/',
             path: {
                 'id_': id,
             },
@@ -122,7 +122,7 @@ requestBody: UserUpdateModel,
 }): CancelablePromise<UserReadModel> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: ':8000/api/v1/users/{id_}/',
+            url: '/api/v1/users/{id_}/',
             path: {
                 'id_': id,
             },

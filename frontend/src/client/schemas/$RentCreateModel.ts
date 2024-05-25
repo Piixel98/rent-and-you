@@ -5,7 +5,7 @@
 export const $RentCreateModel = {
     description: `RentCreateModel represents a write model to create a rent`,
     properties: {
-        ammount: {
+        amount: {
     type: 'number',
     isRequired: true,
 },

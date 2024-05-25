@@ -36,9 +36,6 @@ services:
       # allow running it locally
       - traefik.http.middlewares.https-redirect.contenttype.autodetect=false
 
-  api-gateway:
-    ports:
-        - "8080:8080"
   db:
     ports:
       - "5432:5432"
@@ -65,6 +62,7 @@ services:
   frontend:
     build:
       context: ./frontend
+      dockerfile: frontend.dockerfile
       args:
         - VITE_API_URL=http://${DOMAIN?Variable not set}
         - NODE_ENV=development

@@ -21,7 +21,7 @@ class Rent(Base):
 
     __tablename__ = "rents"
 
-    ammount: Mapped[float] | str = Column(Float)
+    amount: Mapped[float] | str = Column(Float)
     total_days: Mapped[int] | None = Column(Integer, default=1)
     pickup_date: Mapped[datetime.date] | None = Column(DateTime)
     return_date: Mapped[datetime.date] | None = Column(DateTime)
@@ -38,7 +38,7 @@ class Rent(Base):
     def to_entity(self) -> RentEntity:
         return RentEntity(
             id_=self.id_,
-            ammount=self.ammount,
+            amount=self.amount,
             total_days=self.total_days,
             pickup_date=self.pickup_date,
             return_date=self.return_date,
@@ -53,7 +53,7 @@ class Rent(Base):
     def to_dict(self):
         return {
             "id_": self.id_,
-            "ammount": self.ammount,
+            "amount": self.amount,
             "total_days": self.total_days,
             "pickup_date": self.pickup_date,
             "return_date": self.return_date,
@@ -69,7 +69,7 @@ class Rent(Base):
         return RentReadModel(
             id_=self.id_,
             total_days=self.total_days,
-            ammount=self.ammount,
+            amount=self.amount,
             pickup_date=self.pickup_date,
             return_date=self.return_date,
             is_deleted=self.is_deleted,
@@ -84,7 +84,7 @@ class Rent(Base):
     def from_entity(rent: RentEntity) -> "Rent":
         return Rent(
             id_=rent.id_,
-            ammount=rent.ammount,
+            amount=rent.amount,
             total_days=rent.total_days,
             pickup_date=rent.pickup_date,
             return_date=rent.return_date,
