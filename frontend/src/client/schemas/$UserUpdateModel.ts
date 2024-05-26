@@ -6,10 +6,14 @@ export const $UserUpdateModel = {
     description: `UserUpdateModel represents a write model to update a user`,
     properties: {
         document_type: {
-    type: 'string',
+    type: 'DocumentType',
 },
         document_id: {
     type: 'string',
+},
+        expiration_date: {
+    type: 'string',
+    format: 'date',
 },
         first_name: {
     type: 'string',

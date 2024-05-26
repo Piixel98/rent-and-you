@@ -1,14 +1,9 @@
-from typing import TYPE_CHECKING
-
 from sqlalchemy import Column, String
-from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy.orm import Mapped
 
 from app.modules.office.domain.entities.office_query_model import OfficeReadModel
 from app.core.models.postgres.models import Base
 from app.modules.office.domain.entities.office_entity import OfficeEntity
-
-if TYPE_CHECKING:
-    from app.modules.rent.data.models.rent import Rent
 
 
 class Office(Base):
@@ -25,7 +20,6 @@ class Office(Base):
     postal_code: Mapped[str] | str = Column(String)
     city: Mapped[str] | str = Column(String)
     geo_location: Mapped[str] | str = Column(String)
-    rents: Mapped["Rent"] = relationship("Rent", back_populates="office")
 
     def to_entity(self) -> OfficeEntity:
         return OfficeEntity(

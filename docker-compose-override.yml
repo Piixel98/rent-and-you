@@ -1,7 +1,7 @@
 version: "3.3"
 services:
 
-  proxy:
+  traefik:
     image: traefik:v2.3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -53,7 +53,7 @@ services:
       - SERVER_HOST=http://${DOMAIN?Variable not set}
     build:
       context: ./backend
-      dockerfile: backend.dockerfile
+      dockerfile: Dockerfile
       args:
         INSTALL_DEV: ${INSTALL_DEV-true}
     # command: sleep infinity  # Infinite loop to keep container alive doing nothing
@@ -62,7 +62,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: frontend.dockerfile
+      dockerfile: Dockerfile
       args:
         - VITE_API_URL=http://${DOMAIN?Variable not set}
         - NODE_ENV=development

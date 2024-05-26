@@ -12,6 +12,9 @@ uvicorn = { extras = ['standard'], version = '^0.17.6' }
 six = "^1.16.0"
 fastapi-auth-middleware = "^1.0.2"
 passlib = "^1.7.4"
+SQLAlchemy = { extras = ["mypy"], version = "^1.4.36" }
+tenacity = "^8.3.0"
+alembic = "^1.13.1"
 
 [tool.poetry.dev-dependencies]
 toml = "^0.10.2"
@@ -20,8 +23,6 @@ mypy = "^0.960"
 pycodestyle = "^2.8.0"
 pytest = "^7.1.2"
 pylint = "^2.13.9"
-SQLAlchemy = { extras = ["mypy"], version = "^1.4.36" }
-
 
 [tool.yapf]
 based_on_style = 'google'

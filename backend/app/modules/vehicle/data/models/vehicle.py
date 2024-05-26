@@ -1,17 +1,12 @@
 import datetime
-from typing import TYPE_CHECKING
 
-from sqlalchemy import Column, ForeignKey, Integer, String, Date
-from sqlalchemy.orm import relationship, Mapped
+from sqlalchemy import Column, ForeignKey, Integer, String, Date, Float
+from sqlalchemy.orm import Mapped
 
 from app.core.models.postgres.models import Base
 
 from app.modules.vehicle.domain.entities.vehicle_entity import VehicleEntity
 from app.modules.vehicle.domain.entities.vehicle_query_model import VehicleReadModel
-
-if TYPE_CHECKING:
-    from app.modules.office.data.models.office import Office
-    from app.modules.rent.data.models.rent import Rent
 
 
 class GearBox:
@@ -52,14 +47,12 @@ class Vehicle(Base):
     image_url: Mapped[str] | str = Column(String)
     gearbox: Mapped[GearBox] = Column(String)
     body_type: Mapped[BodyType] = Column(String)
-    price_per_day: Mapped[float] | float = Column(Integer)
+    price_per_day: Mapped[float] | float = Column(Float)
     passengers: Mapped[int] | int = Column(Integer)
-    avg_consumption: Mapped[float] | None = Column(Integer)
+    avg_consumption: Mapped[float] | None = Column(Float)
     fare: Mapped[Fares] | None = Column(String)
 
-    office_id: int = Column(Integer, ForeignKey("offices.id_"))
-    office: Mapped["Office"] = relationship("Office")
-    rents: Mapped["Rent"] = relationship("Rent", back_populates="vehicle")
+    office_id: int = Column(Integer, ForeignKey("offices.id_", ondelete="CASCADE"))
 
     def to_entity(self) -> VehicleEntity:
         return VehicleEntity(

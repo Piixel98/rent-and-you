@@ -52,7 +52,6 @@ export const $VehicleReadModel = {
 },
         id_: {
     type: 'number',
-    isRequired: true,
 },
         created_at: {
     type: 'string',

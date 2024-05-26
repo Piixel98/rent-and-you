@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from typing import Any
 from passlib.context import CryptContext
 
+from app.core.database.postgres.database import get_db
 from app.dependencies import get_settings
 
 from pydantic import ValidationError
@@ -9,11 +10,9 @@ from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 from sqlalchemy.orm import Session
-from collections.abc import Generator
 from typing import Annotated
 
 from app.core import auth
-from app.core.database.postgres.database import engine
 from app.core.error.auth_exception import (
     InvalidCredentialsError,
     InactiveUserError,
@@ -54,11 +53,6 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
-
-
-def get_db() -> Generator:
-    with Session(engine) as session:
-        yield session
 
 
 SessionDep = Annotated[Session, Depends(get_db)]

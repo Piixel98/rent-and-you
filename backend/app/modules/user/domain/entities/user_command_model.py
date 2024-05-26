@@ -1,6 +1,12 @@
+from datetime import date
+
 from pydantic import Field
 
-from app.modules.user.domain.entities.user_common_model import UserBaseModel, UserRole
+from app.modules.user.domain.entities.user_common_model import (
+    UserBaseModel,
+    UserRole,
+    DocumentType,
+)
 
 
 class UserCreateModel(UserBaseModel):
@@ -8,15 +14,16 @@ class UserCreateModel(UserBaseModel):
     UserCreateModel represents a write model to create a user
     """
 
-    document_type: str
+    document_type: DocumentType
     document_id: str
+    expiration_date: date
     first_name: str
     postal_code: str
     address: str
     city: str
     role: UserRole
     phone_number: str | None
-    hashed_password: str | None
+    hashed_password: str
     email: str = Field(example="test@test.com")
 
 
@@ -25,8 +32,9 @@ class UserUpdateModel(UserBaseModel):
     UserUpdateModel represents a write model to update a user
     """
 
-    document_type: str | None
+    document_type: DocumentType | None
     document_id: str | None
+    expiration_date: date | None
     first_name: str | None
     last_name: str | None
     postal_code: str | None

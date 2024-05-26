@@ -11,9 +11,9 @@ import {
     Text,
     useColorModeValue,
     Select,
-    Grid, Alert, AlertIcon, InputGroup, InputRightElement,
+    Grid, Alert, AlertIcon, InputGroup, InputRightElement, HStack,
 } from '@chakra-ui/react';
-import {UserCreateModel, UserService} from "../../client";
+import {DocumentType, UserCreateModel, UserService} from "../../client";
 import {useState} from "react";
 import useCustomToast from "../../hooks/useCustomToast.ts";
 import WelcomeUser from "./WelcomeUser.tsx";
@@ -22,11 +22,12 @@ import {useNavigate} from "@tanstack/react-router";
 import {ViewIcon, ViewOffIcon} from "@chakra-ui/icons";
 
 function SignupUser() {
-    const [documentType, setDocumentType] = useState('dni');
+    const [documentType, setDocumentType] = useState<DocumentType>('nif');
     const [documentId, setDocumentId] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [postalCode, setPostalCode] = useState('');
+    const [expiration_date, setExpirationDate] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -42,6 +43,7 @@ function SignupUser() {
     const showToast = useCustomToast();
     const { login } = useAuth();
     const navigate = useNavigate();
+    const documentTypes: DocumentType[] = ['nif', 'cif', 'nie', 'passport'];
 
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
@@ -55,6 +57,7 @@ function SignupUser() {
       const user: UserCreateModel = {
         document_type: documentType,
         document_id: documentId,
+        expiration_date: expiration_date,
         first_name: firstName,
         last_name: lastName,
         postal_code: postalCode,
@@ -118,19 +121,25 @@ function SignupUser() {
                   borderRadius="lg"
                   onSubmit={handleSubmit}>
                   <Grid templateColumns="repeat(1, 1fr)" gap={6}>
-                    <Grid templateColumns="repeat(2, 1fr)" gap={6}>
-                      <FormControl id="documentType">
-                        <FormLabel>Tipo de documento</FormLabel>
-                        <Select focusBorderColor="green.400" value={documentType} onChange={(e) => setDocumentType(e.target.value)} width="80%">
-                          <option value="passport">Pasaporte</option>
-                          <option value="dni">DNI</option>
-                          <option value="nie">NIE</option>
-                        </Select>
-                      </FormControl>
-                      <FormControl id="documentId">
-                        <FormLabel>Número de documento</FormLabel>
-                        <Input focusBorderColor="green.400" required type="text" value={documentId} onChange={(e) => setDocumentId(e.target.value)} />
-                      </FormControl>
+                    <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                     <HStack spacing={1}>
+                         <FormControl id="document_type">
+                            <FormLabel>Tipo de Documento</FormLabel>
+                            <Select onChange={(e) => setDocumentType(e.target.value.toLowerCase() as DocumentType)} required>
+                              {documentTypes.map((type) => (
+                                <option key={type} value={type}>{type.toUpperCase()}</option>
+                              ))}
+                            </Select>
+                          </FormControl>
+                          <FormControl id="document_id">
+                              <FormLabel>Documento de Identidad</FormLabel>
+                              <Input onChange={(e) => setDocumentId(e.target.value)} required type="text" />
+                          </FormControl>
+                             <FormControl id="fecha_caducidad">
+                            <FormLabel>Fecha de caducidad</FormLabel>
+                            <Input onChange={(e) => setExpirationDate(e.target.value)} required type="date" />
+                          </FormControl>
+                        </HStack>
                     </Grid>
                     <Grid templateColumns="repeat(2, 1fr)" gap={6}>
                       <FormControl id="firstName">

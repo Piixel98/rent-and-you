@@ -18,9 +18,10 @@ router = APIRouter()
     responses={status.HTTP_404_NOT_FOUND: {"model": ErrorMessageRentNotFound}},
 )
 def get_rents(
+    user_id: int = None,
     offset: int = 0,
     limit: int = 100,
     get_rents_use_case_: GetRentsUseCase = Depends(get_rents_use_case),
 ):
-    rent = get_rents_use_case_(offset=None, limit=None)
+    rent = get_rents_use_case_(user_id=user_id)
     return rent

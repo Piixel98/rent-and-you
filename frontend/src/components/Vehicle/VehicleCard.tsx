@@ -1,7 +1,7 @@
 import {Badge, Box, Image, Text} from "@chakra-ui/react";
 import { FaUser, FaGasPump } from 'react-icons/fa';
 import NoVehicleImage from "../../assets/images/no-vehicle.svg";
-import {useNavigate} from "@tanstack/react-router";
+import {Link} from "@tanstack/react-router";
 import {VehicleReadModel} from "../../client";
 
 
@@ -30,21 +30,25 @@ function getFareColor(fare: string | null): string {
 }
 
 function VehicleCard({ vehicle, office_id, pickup_date, return_date, total_days}: VehicleCardProps) {
-  const navigate = useNavigate();
   const getImageSrc = (image: string | null) => {
         if (!image || image == "" || !image.includes('https')) {
             return NoVehicleImage; // return a default image if image is null or undefined
         }
         return image;
     }
-  const handleClick = () => {
-      const url: string = `/rent?vehicle_id=${vehicle.id_.toString()}&office_id=${office_id.toString()}&pickup_date=${pickup_date.toString()}&return_date=${return_date.toString()}&total_days=${total_days.toString()}`;
-      // @ts-ignore
-      navigate(url).then(r => console.log(r));
+  const get_url = () => {
+      const url = new URL('/rent', window.location.origin);
+      url.searchParams.append('vehicle_id', vehicle.id_.toString());
+      url.searchParams.append('office_id', office_id.toString());
+      url.searchParams.append('pickup_date', pickup_date.toString());
+      url.searchParams.append('return_date', return_date.toString());
+      url.searchParams.append('total_days', total_days.toString());
+
+      return url.toString();
     };
 
   return (
-  <Box onClick={handleClick} maxW="sm" maxH="sm" width="200px" height="300px" borderRadius="lg" overflow="hidden" borderWidth="2px">
+  <Box as={Link} to={get_url()} maxW="sm" maxH="sm" width="200px" height="300px" borderRadius="lg" overflow="hidden" borderWidth="2px">
       <Image src={getImageSrc(vehicle?.image_url || null)} alt={vehicle.model} width="100%" height="100px" mt="7" objectFit="cover" />
       <Box p="6">
           <Box alignItems="baseline" >

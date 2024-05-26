@@ -61,8 +61,9 @@ function UsersAdmin() {
   };
 
   const userModel: UserReadModel = {
-    document_type: '',
+    document_type: "nif",
     document_id: '',
+    expiration_date: '',
     first_name: '',
     last_name: '',
     phone_number: '',
@@ -73,6 +74,7 @@ function UsersAdmin() {
     city: '',
     is_active: false,
     is_deleted: false,
+    hashed_password: '*********',
     created_at: '',
     updated_at: '',
     role: 'user'

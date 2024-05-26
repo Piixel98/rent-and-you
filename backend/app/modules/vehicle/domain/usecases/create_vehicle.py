@@ -26,7 +26,7 @@ class CreateVehicleUseCaseImpl(CreateVehicleUseCase):
     def __init__(self, unit_of_work: VehicleUnitOfWork):
         self.unit_of_work = unit_of_work
 
-    def __call__(self, args: Tuple[VehicleCreateModel]) -> VehicleReadModel:
+    def __call__(self, args: VehicleCreateModel) -> VehicleReadModel:
         (data,) = args
 
         vehicle = VehicleEntity(id_=None, **data.dict())
@@ -34,7 +34,7 @@ class CreateVehicleUseCaseImpl(CreateVehicleUseCase):
         existing_vehicle = self.unit_of_work.repository.findall(
             license_plate=data.license_plate
         )
-        if existing_vehicle:
+        if len(existing_vehicle) > 0:
             raise VehicleAlreadyExistsError()
 
         try:
@@ -49,7 +49,7 @@ class CreateVehicleUseCaseImpl(CreateVehicleUseCase):
             license_plate=data.license_plate
         )
 
-        if not created_vehicle:
+        if len(created_vehicle) == 0:
             raise VehicleNotCreatedError()
 
-        return VehicleReadModel.from_entity(cast(VehicleEntity, created_vehicle))
+        return VehicleReadModel.from_entity(cast(VehicleEntity, created_vehicle[0]))

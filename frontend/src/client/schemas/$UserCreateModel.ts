@@ -6,12 +6,17 @@ export const $UserCreateModel = {
     description: `UserCreateModel represents a write model to create a user`,
     properties: {
         document_type: {
-    type: 'string',
+    type: 'DocumentType',
     isRequired: true,
 },
         document_id: {
     type: 'string',
     isRequired: true,
+},
+        expiration_date: {
+    type: 'string',
+    isRequired: true,
+    format: 'date',
 },
         first_name: {
     type: 'string',

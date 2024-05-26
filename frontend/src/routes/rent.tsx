@@ -14,7 +14,7 @@ import {
   GridItem,
   Spinner,
   Flex,
-  Icon, Center, Stack, Avatar
+  Icon, Center, Stack, Avatar, Select
 } from "@chakra-ui/react";
 import {createFileRoute, Link, useNavigate} from '@tanstack/react-router';
 import UserMenu from "../components/Common/UserMenu.tsx";
@@ -30,7 +30,8 @@ import {
   RentCreateModel,
   RentService,
   VehicleReadModel,
-  OfficeReadModel
+  OfficeReadModel,
+  DocumentType
 } from "../client";
 import {SubmitHandler, useForm} from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
@@ -66,16 +67,18 @@ function Rent() {
   const vehicle_id = queryParams.get('vehicle_id') || "";
   const return_date = queryParams.get('return_date') || "";
   const total_days = queryParams.get('total_days') || "";
-
   const [vehicle, setVehicle] = useState<VehicleReadModel | null>(null);
   const [office, setOffice] = useState<OfficeReadModel | null>(null);
   const [loading, setLoading] = useState(true);
   const queryClient = useQueryClient();
   const showToast = useCustomToast();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const documentTypes: DocumentType[] = ['nif', 'cif', 'nie', 'passport'];
 
   const {
     handleSubmit,
+    formState: { isValid }
   } = useForm<RentCreateModel>({
     mode: 'onBlur',
     criteriaMode: 'all',
@@ -97,11 +100,12 @@ function Rent() {
   const mutation = useMutation(addRent, {
     onSuccess: () => {
       showToast('Reserva creada!', 'Reserva creada correctamente.', 'success');
-      navigate({ to: "/search" });
+      navigate({to: "/search"});
     },
     onError: (err: ApiError) => {
       const errDetail = err.body.detail;
-      showToast('Algo fué mal...', `${errDetail}`, 'error');
+      console.error('There was an error!', errDetail);
+        showToast('Ops! No se pudo crear la reserva.', 'Intena de nuevo más tarde.', 'error');
     },
     onSettled: () => {
       queryClient.invalidateQueries('rents');
@@ -151,43 +155,72 @@ function Rent() {
       <NavBarWithSubnavigation />
       <UserMenu />
         <Flex mt={90} direction="column" maxW="large" h="auto" alignItems="center">
-          <Grid templateColumns="1fr 1fr" gap={6} p={5}>
+          <Grid templateColumns="2fr 1fr" gap={6} p={5}>
             <Box as="form" borderWidth="1px" borderRadius="lg" p={5} onSubmit={handleSubmit(onSubmit)}>
               <VStack spacing={4} align="stretch">
                 <Text fontSize="xl" fontWeight="bold">Datos conductor:</Text>
                  {isLoggedIn() ? (
                      <>
-                     <FormControl id="office_id">
-                      <FormLabel>Empresa</FormLabel>
-                      <Input type="text" />
-                    </FormControl>
+                       <HStack spacing={1}>
+                         <FormControl id="document_type">
+                            <FormLabel>Tipo de Documento</FormLabel>
+                            <Select required>
+                              {documentTypes.map((type) => (
+                                <option key={type} value={type}>{type.toUpperCase()}</option>
+                              ))}
+                            </Select>
+                          </FormControl>
+                          <FormControl id="document_id">
+                              <FormLabel>Documento de Identidad</FormLabel>
+                              <Input required type="text" />
+                          </FormControl>
+                             <FormControl id="fecha_caducidad">
+                            <FormLabel>Fecha de caducidad</FormLabel>
+                            <Input required type="date" />
+                          </FormControl>
+                          </HStack>
                     <HStack spacing={4}>
                       <FormControl id="nombre">
                         <FormLabel>Nombre</FormLabel>
-                        <Input type="text" />
+                        <Input required type="text" />
                       </FormControl>
-                      <FormControl id="apellidos">
-                        <FormLabel>Apellidos</FormLabel>
+                      <FormControl id="apellido1">
+                        <FormLabel>Apellido 1</FormLabel>
+                        <Input required type="text" />
+                      </FormControl>
+                      <FormControl id="apellido2">
+                        <FormLabel>Apellido 2</FormLabel>
                         <Input type="text" />
                       </FormControl>
                     </HStack>
-                    <FormControl id="email">
-                      <FormLabel>Email</FormLabel>
-                      <Input type="email"  />
-                    </FormControl>
+                       <HStack spacing={4}>
+                        <FormControl id="email">
+                          <FormLabel>Email</FormLabel>
+                          <Input required type="email"  />
+                        </FormControl>
+                          <FormControl id="telefono">
+                            <FormLabel>Teléfono</FormLabel>
+                            <Input required type="tel" />
+                          </FormControl>
+                       </HStack>
                     <HStack spacing={4}>
-                      <FormControl id="telefono">
-                        <FormLabel>Teléfono</FormLabel>
-                        <Input type="tel" />
+                      <FormControl id="direccion">
+                        <FormLabel>Dirección</FormLabel>
+                        <Input required type="text" />
                       </FormControl>
                       <FormControl id="fecha-nacimiento">
                         <FormLabel>Fecha de nacimiento</FormLabel>
-                        <Input type="date" />
+                        <Input required type="date" />
                       </FormControl>
                     </HStack>
-                    <Checkbox defaultChecked colorScheme="green">Acepto la política de privacidad</Checkbox>
-                    <Checkbox colorScheme="green">Acepto recibir comunicaciones comerciales</Checkbox>
-
+                    <FormControl id="rgpd">
+                      <Checkbox colorScheme="green" required>Acepto la política de privacidad
+                        <Text as={Link} to={"/privacy"} color={"green.400"}> *</Text>
+                      </Checkbox>
+                    </FormControl>
+                    <FormControl id="lssi">
+                      <Checkbox colorScheme="green">Acepto recibir comunicaciones comerciales</Checkbox>
+                    </FormControl>
                     <Text fontSize="xl" fontWeight="bold">Vales y bonificaciones:</Text>
                     <FormControl id="vales">
                       <Input type="text" placeholder="Añadir cupón" />
@@ -228,9 +261,9 @@ function Rent() {
                   colorScheme={"green"}
                   mt={4}
                   type="submit"
-                  isDisabled={false}
+                  isDisabled={!isValid}
                 >
-                  Solicitar reserva
+                  ¡Reservar ahora!
                 </Button>
               </VStack>
             </Box>

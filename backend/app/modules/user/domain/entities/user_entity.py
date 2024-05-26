@@ -1,5 +1,5 @@
 import copy
-from datetime import datetime
+from datetime import datetime, date
 from enum import Enum
 from typing import Any, Callable, TYPE_CHECKING
 
@@ -24,6 +24,7 @@ class UserEntity(object):
         id_: int | None,
         document_type: str,
         document_id: str,
+        expiration_date: date | None,
         first_name: str,
         last_name: str,
         postal_code: str,
@@ -32,7 +33,7 @@ class UserEntity(object):
         email: str,
         city: str,
         hashed_password: str,
-        role: UserRole = UserRole.USER,
+        role: str = UserRole.USER,
         is_active: bool | None = True,
         created_at: datetime | None = None,
         updated_at: datetime | None = None,
@@ -41,6 +42,7 @@ class UserEntity(object):
         self.id_ = id_
         self.document_type = document_type
         self.document_id = document_id
+        self.expiration_date = expiration_date
         self.first_name = first_name
         self.last_name = last_name
         self.postal_code = postal_code

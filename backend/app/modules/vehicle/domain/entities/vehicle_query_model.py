@@ -7,7 +7,7 @@ from app.modules.vehicle.domain.entities.vehicle_entity import VehicleEntity
 
 
 class VehicleReadModel(VehicleBaseModel):
-    id_: int
+    id_: int | None
     created_at: datetime
     updated_at: datetime
 
@@ -31,7 +31,6 @@ class VehicleReadModel(VehicleBaseModel):
             image_url=entity.image_url,
             is_deleted=entity.is_deleted,
             passengers=entity.passengers,
-            rent_id=entity.rent_id,
             office_id=entity.office_id,
             updated_at=entity.updated_at,
             created_at=entity.created_at,

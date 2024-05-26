@@ -24,7 +24,7 @@ export type VehicleReadModel = {
     fare?: Fares;
     image_url?: string;
     office_id?: number;
-    id_: number;
+    id_?: number;
     created_at: string;
     updated_at: string;
 };

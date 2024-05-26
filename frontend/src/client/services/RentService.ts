@@ -18,9 +18,11 @@ export class RentService {
      * @throws ApiError
      */
     public static getRentsApiV1RentsGet({
+userId,
 offset,
 limit = 100,
 }: {
+userId?: number,
 offset?: number,
 limit?: number,
 }): CancelablePromise<Array<RentReadModel>> {
@@ -28,6 +30,7 @@ limit?: number,
             method: 'GET',
             url: '/api/v1/rents/',
             query: {
+                'user_id': userId,
                 'offset': offset,
                 'limit': limit,
             },

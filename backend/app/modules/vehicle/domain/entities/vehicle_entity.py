@@ -19,7 +19,6 @@ class VehicleEntity(object):
 
     def __init__(
         self,
-        id_: int | None,
         model: str,
         version: str,
         color: str,
@@ -31,6 +30,7 @@ class VehicleEntity(object):
         passengers: int,
         office_id: int,
         fare: str | None,
+        id_: int | None = None,
         price_per_day: float | None = None,
         purchase_date: date = None,
         image_url: str = None,

@@ -1,17 +1,11 @@
 import datetime
-from typing import TYPE_CHECKING
 
 from sqlalchemy import Column, Float, ForeignKey, DateTime, Integer
-from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy.orm import Mapped
 
 from app.modules.rent.domain.entities.rent_query_model import RentReadModel
 from app.core.models.postgres.models import Base
 from app.modules.rent.domain.entities.rent_entity import RentEntity
-
-if TYPE_CHECKING:
-    from app.modules.vehicle.data.models.vehicle import Vehicle
-    from app.modules.office.data.models.office import Office
-    from app.modules.user.data.models.user import User
 
 
 class Rent(Base):
@@ -26,14 +20,15 @@ class Rent(Base):
     pickup_date: Mapped[datetime.date] | None = Column(DateTime)
     return_date: Mapped[datetime.date] | None = Column(DateTime)
 
-    office_id: Mapped[int] = Column(ForeignKey("offices.id_"), nullable=False)
-    office: Mapped["Office"] = relationship("Office", back_populates="rents")
-
-    user_id: Mapped[int] = Column(ForeignKey("users.id_"), nullable=False)
-    user: Mapped["User"] = relationship("User", back_populates="rents")
-
-    vehicle_id: Mapped[int] = Column(ForeignKey("vehicles.id_"), nullable=False)
-    vehicle: Mapped["Vehicle"] = relationship("Vehicle", back_populates="rents")
+    office_id: Mapped[int] = Column(
+        ForeignKey("offices.id_", ondelete="CASCADE"), nullable=False
+    )
+    user_id: Mapped[int] = Column(
+        ForeignKey("users.id_", ondelete="CASCADE"), nullable=False
+    )
+    vehicle_id: Mapped[int] = Column(
+        ForeignKey("vehicles.id_", ondelete="CASCADE"), nullable=False
+    )
 
     def to_entity(self) -> RentEntity:
         return RentEntity(

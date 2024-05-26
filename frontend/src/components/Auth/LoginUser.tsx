@@ -34,6 +34,7 @@ function LoginUser() {
       toast('Sesión iniciada!', 'Has iniciado sesión con éxito.', 'success');
     } catch (error) {
       const err = error as { status?: number };
+      console.log(err);
       if (err.status === 400) {
         toast('Error iniciando sesión', 'Verifica tus credenciales.', 'error');
       } else {
@@ -68,7 +69,7 @@ function LoginUser() {
                   <Stack spacing={4}>
                     <FormControl id="email">
                       <FormLabel>Email</FormLabel>
-                      <Input focusBorderColor="green.400" required type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                      <Input autoComplete="email" focusBorderColor="green.400" required type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                     </FormControl>
                     <FormControl id="password">
                       <FormLabel>Contraseña</FormLabel>
@@ -76,6 +77,7 @@ function LoginUser() {
                         <Input
                           focusBorderColor="green.400"
                           required
+                          autoComplete="password"
                           type={showPassword ? 'text' : 'password'}
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}

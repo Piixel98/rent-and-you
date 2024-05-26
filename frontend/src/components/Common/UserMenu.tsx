@@ -45,7 +45,7 @@ const UserMenu = () => {
                   as={Link} to="/"
                   onClick={logout}
                 >
-                  Log out
+                  Cerrar sesión
                 </MenuItem>
               </>
             ) : (

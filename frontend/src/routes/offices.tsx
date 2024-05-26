@@ -39,7 +39,8 @@ function Offices() {
         <Heading as="h1" size="xl" textAlign="center" mt={100}>Oficinas <Text color={"green.400"}>&You</Text></Heading>
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10} mt={10}>
           {offices.map((office) => (
-            <Box key={office.id_} p={5} shadow="md" borderWidth="1px" borderRadius="lg">
+            <Box key={office.id_} ml={10} mr={10}
+                 p={5} shadow="md" borderWidth="1px" borderRadius="lg">
               <Icon as={FaBuilding} w={6} h={6} />
               <Text mt={4} fontWeight="bold">{office.name} - {office.city}</Text>
               <Text mt={2}>{office.address}</Text>

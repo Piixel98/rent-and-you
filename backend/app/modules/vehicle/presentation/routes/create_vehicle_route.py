@@ -25,5 +25,6 @@ def create_vehicle(
     ),
 ):
     vehicle = create_vehicle_use_case((data,))
+    response.status_code = status.HTTP_201_CREATED
     response.headers["location"] = f"{request.url.path}{vehicle.id_}"
     return vehicle

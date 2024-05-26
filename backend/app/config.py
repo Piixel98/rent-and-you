@@ -14,9 +14,10 @@ class Settings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_DB: str
     POSTGRES_PASSWORD: str
+    FILE_IMPORT_SQL: str
 
     # Superuser
-    FIRST_SUPERUSER_EMAIL: str
+    FIRST_SUPERUSER_EMAIL: str = "ADMIN@ADMIN.COM"
     FIRST_SUPERUSER_PASSWORD: str
 
     # Auth

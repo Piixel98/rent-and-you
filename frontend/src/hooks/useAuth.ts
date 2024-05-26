@@ -25,6 +25,7 @@ const useAuth = () => {
     const response = await AuthService.loginAccessTokenApiV1AuthLoginAccessTokenPost({
       formData: data,
     })
+    console.log(response);
     localStorage.setItem('access_token', response.access_token)
     const userDetails = await UserService.getUsersApiV1UsersGet({email: data.username})
     queryClient.setQueryData('currentUser', userDetails[0]);
