@@ -5,6 +5,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.core.error.base_exception import BaseError
 from app.dependencies import get_settings
+from app.initial_data import init
 from app.modules.rent.presentation.routes import rent_router
 from app.modules.rgpd.presentation.routes import rgpd_router
 from app.modules.vehicle.presentation.routes import vehicle_router
@@ -19,7 +20,7 @@ app = FastAPI(
     title=settings.APP_NAME,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
 )
-
+init()
 app.include_router(vehicle_router)
 app.include_router(rent_router)
 app.include_router(office_router)
@@ -35,6 +36,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+init()
 
 
 @app.get("/", include_in_schema=False)

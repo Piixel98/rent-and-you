@@ -11,10 +11,11 @@ class AuthEntity(object):
 
     def __init__(
         self,
-        id_: int | None,
         access_token: str,
         token_type: str,
         expires_in: int | int,
+        user_id: int,
+        id_: int | None = None,
         created_at: datetime | None = None,
         updated_at: datetime | None = None,
         is_deleted: bool | None = False,
@@ -26,6 +27,7 @@ class AuthEntity(object):
         self.created_at = created_at
         self.updated_at = updated_at
         self.is_deleted = is_deleted
+        self.user_id = user_id
 
     def __eq__(self, other) -> bool:
         if isinstance(other, AuthEntity):

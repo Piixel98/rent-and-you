@@ -6,12 +6,21 @@ from app.modules.auth.data.repositories.auth_unit_of_work_impl import AuthUnitOf
 from app.modules.auth.data.services.auth_query_service_impl import AuthQueryServiceImpl
 from app.modules.auth.domain.repositories.auth_repository import AuthRepository
 from app.modules.auth.domain.repositories.auth_unit_of_work import AuthUnitOfWork
-from app.modules.auth.domain.services.auth_service import AuthQueryService
-from app.modules.auth.domain.usecases.login_access_token import (
-    LoginAccessTokenUseCase,
-    LoginAccessTokenUseCaseImpl,
+from app.modules.auth.domain.services.auth_query_service import AuthQueryService
+from app.modules.auth.domain.usecases.auth_signin import (
+    AuthSignInUseCase,
+    AuthSignInUseCaseImpl,
 )
-from app.modules.user.dependencies import get_user_query_service
+from app.modules.auth.domain.usecases.get_user_me import (
+    GetUserMeUseCase,
+    GetUserMeUseCaseImpl,
+)
+from app.modules.auth.domain.usecases.update_user_me import (
+    UpdateUserMeUseCase,
+    UpdateUserMeUseCaseImpl,
+)
+from app.modules.user.dependencies import get_user_query_service, get_user_unit_of_work
+from app.modules.user.domain.repositories.user_unit_of_work import UserUnitOfWork
 from app.modules.user.domain.services.user_query_service import UserQueryService
 
 from app.modules.user.domain.usecases.get_users import (
@@ -43,10 +52,29 @@ def get_users_use_case(
     return GetUsersUseCaseImpl(user_query_service)
 
 
-def login_access_token_use_case(
+def auth_signin_use_case(
     user_query_service: UserQueryService = Depends(get_user_query_service),
     unit_of_work: AuthUnitOfWork = Depends(get_auth_unit_of_work),
-) -> LoginAccessTokenUseCase:
-    return LoginAccessTokenUseCaseImpl(
+) -> AuthSignInUseCase:
+    return AuthSignInUseCaseImpl(
         user_query_service=user_query_service, auth_unit_of_work=unit_of_work
+    )
+
+
+def get_user_me_use_case(
+    user_query_service: UserQueryService = Depends(get_user_query_service),
+    unit_of_work: AuthUnitOfWork = Depends(get_auth_unit_of_work),
+) -> GetUserMeUseCase:
+    return GetUserMeUseCaseImpl(
+        user_query_service=user_query_service,
+        auth_unit_of_work=unit_of_work,
+    )
+
+
+def update_user_me_use_case(
+    user_unit_of_work: UserUnitOfWork = Depends(get_user_unit_of_work),
+    auth_unit_of_work: AuthUnitOfWork = Depends(get_auth_unit_of_work),
+) -> UpdateUserMeUseCase:
+    return UpdateUserMeUseCaseImpl(
+        auth_unit_of_work=auth_unit_of_work, user_unit_of_work=user_unit_of_work
     )

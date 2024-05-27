@@ -3,9 +3,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type AuthBaseModel = {
-    access_token: string;
-    token_type?: string;
-    expires_in: number;
+/**
+ * RGPDCreateModel represents a write model to create a rgpd
+ */
+export type RGPDCreateModel = {
+    rgpd: boolean;
+    lssi: boolean;
     user_id?: number;
 };

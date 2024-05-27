@@ -46,6 +46,7 @@ export const $UserCreateModel = {
 },
         hashed_password: {
     type: 'string',
+    isRequired: true,
 },
         email: {
     type: 'string',

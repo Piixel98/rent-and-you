@@ -52,6 +52,8 @@ def execute_sql_script(engine, file_path):
 
 
 def init_db() -> None:
+    from app.core.auth import get_password_hash
+
     with Session(engine) as session:
         Base.metadata.create_all(engine)
         query = session.query(User).filter(
@@ -59,14 +61,16 @@ def init_db() -> None:
         )
         user = query.first()
         if user is None:
+            password_hashed = get_password_hash(__SETTINGS.FIRST_SUPERUSER_PASSWORD)
             user_in = User(
                 first_name="admin",
                 email=__SETTINGS.FIRST_SUPERUSER_EMAIL,
-                hashed_password=__SETTINGS.FIRST_SUPERUSER_PASSWORD,
+                hashed_password=password_hashed,
                 role="admin",
             )
             session.add(user_in)
             session.commit()
+            session.refresh(user_in)
 
         if os.path.exists(__SETTINGS.FILE_IMPORT_SQL):
             execute_sql_script(engine, __SETTINGS.FILE_IMPORT_SQL)

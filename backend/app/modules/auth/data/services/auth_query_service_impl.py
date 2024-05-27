@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.modules.auth.data.models.auth import Auth
 from app.modules.auth.domain.entities.auth_common_model import AuthBaseModel
-from app.modules.auth.domain.services.auth_service import AuthQueryService
+from app.modules.auth.domain.services.auth_query_service import AuthQueryService
 
 
 class AuthQueryServiceImpl(AuthQueryService):

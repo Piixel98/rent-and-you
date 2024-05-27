@@ -38,6 +38,7 @@ class UserEntity(object):
         created_at: datetime | None = None,
         updated_at: datetime | None = None,
         is_deleted: bool | None = False,
+        access_token: str | None = None,
     ):
         self.id_ = id_
         self.document_type = document_type
@@ -56,6 +57,7 @@ class UserEntity(object):
         self.created_at = created_at
         self.updated_at = updated_at
         self.is_deleted = is_deleted
+        self.access_token = access_token
 
     def update_entity(
         self,

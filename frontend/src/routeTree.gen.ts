@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as WelcomeImport } from './routes/welcome'
 import { Route as VehiclesImport } from './routes/vehicles'
 import { Route as SignupImport } from './routes/signup'
+import { Route as SettingsImport } from './routes/settings'
 import { Route as SearchImport } from './routes/search'
 import { Route as RentImport } from './routes/rent'
 import { Route as PrivacyImport } from './routes/privacy'
@@ -42,6 +43,11 @@ const VehiclesRoute = VehiclesImport.update({
 
 const SignupRoute = SignupImport.update({
   path: '/signup',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SettingsRoute = SettingsImport.update({
+  path: '/settings',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -146,6 +152,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchImport
       parentRoute: typeof rootRoute
     }
+    '/settings': {
+      preLoaderRoute: typeof SettingsImport
+      parentRoute: typeof rootRoute
+    }
     '/signup': {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
@@ -197,6 +207,7 @@ export const routeTree = rootRoute.addChildren([
   PrivacyRoute,
   RentRoute,
   SearchRoute,
+  SettingsRoute,
   SignupRoute,
   VehiclesRoute,
   WelcomeRoute,

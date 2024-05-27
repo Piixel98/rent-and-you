@@ -97,7 +97,7 @@ class User(Base):
             city=self.city,
             phone_number=self.phone_number,
             role=self.role,
-            hashed_password="********" if self.hashed_password else None,
+            hashed_password=self.hashed_password,
             email=self.email,
             is_active=self.is_active,
             is_deleted=self.is_deleted,

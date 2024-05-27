@@ -248,9 +248,9 @@ function Rent() {
                   ) : vehicle ? (
                     <>
                       {total_days == null || total_days === "" ? (
-                        <Input type="text" readOnly value={`${vehicle?.price_per_day}.00 €`} />
+                        <Input type="text" readOnly value={`${vehicle?.price_per_day} €`} />
                       ) : (
-                        <Input type="text" readOnly value={`${vehicle?.price_per_day || 0 * parseInt(total_days)}.00 €`} />
+                        <Input type="text" readOnly value={`${vehicle?.price_per_day || 0 * parseInt(total_days)} €`} />
                       )}
                     </>
                   ) : (

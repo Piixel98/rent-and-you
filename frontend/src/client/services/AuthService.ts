@@ -3,8 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AuthBaseModel } from '../models/AuthBaseModel';
-import type { Body_login_access_token_api_v1_auth_login_access_token_post } from '../models/Body_login_access_token_api_v1_auth_login_access_token_post';
+import type { Body_auth_signin_api_v1_auth_signin_post } from '../models/Body_auth_signin_api_v1_auth_signin_post';
+import type { UserCreateModel } from '../models/UserCreateModel';
 import type { UserReadModel } from '../models/UserReadModel';
+import type { UserUpdateModel } from '../models/UserUpdateModel';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -13,18 +15,18 @@ import { request as __request } from '../core/request';
 export class AuthService {
 
     /**
-     * Login Access Token
+     * Auth Signin
      * @returns AuthBaseModel Successful Response
      * @throws ApiError
      */
-    public static loginAccessTokenApiV1AuthLoginAccessTokenPost({
+    public static authSigninApiV1AuthSigninPost({
 formData,
 }: {
-formData: Body_login_access_token_api_v1_auth_login_access_token_post,
+formData: Body_auth_signin_api_v1_auth_signin_post,
 }): CancelablePromise<AuthBaseModel> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/auth/login/access-token',
+            url: '/api/v1/auth/signin',
             formData: formData,
             mediaType: 'application/x-www-form-urlencoded',
             errors: {
@@ -35,23 +37,22 @@ formData: Body_login_access_token_api_v1_auth_login_access_token_post,
     }
 
     /**
-     * Password Recovery
-     * @returns any Successful Response
+     * Auth Signup
+     * @returns UserReadModel Successful Response
      * @throws ApiError
      */
-    public static passwordRecoveryApiV1AuthPasswordRecoveryEmailPost({
-email,
+    public static authSignupApiV1AuthSignupPost({
+requestBody,
 }: {
-email: string,
-}): CancelablePromise<any> {
+requestBody: UserCreateModel,
+}): CancelablePromise<UserReadModel> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/auth/password-recovery/{email}',
-            path: {
-                'email': email,
-            },
+            url: '/api/v1/auth/signup',
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
-                400: `Bad Request`,
+                409: `Conflict`,
                 422: `Validation Error`,
             },
         });
@@ -62,20 +63,31 @@ email: string,
      * @returns UserReadModel Successful Response
      * @throws ApiError
      */
-    public static getUserMeApiV1AuthUserMeGet({
-args,
-kwargs,
-}: {
-args: any,
-kwargs: any,
-}): CancelablePromise<UserReadModel> {
+    public static getUserMeApiV1AuthUserGet(): CancelablePromise<UserReadModel> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/auth/user/me',
-            query: {
-                'args': args,
-                'kwargs': kwargs,
+            url: '/api/v1/auth/user',
+            errors: {
+                400: `Bad Request`,
             },
+        });
+    }
+
+    /**
+     * Update User Me
+     * @returns UserReadModel Successful Response
+     * @throws ApiError
+     */
+    public static updateUserMeApiV1AuthUserPatch({
+requestBody,
+}: {
+requestBody: UserUpdateModel,
+}): CancelablePromise<UserReadModel> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/auth/user',
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 400: `Bad Request`,
                 422: `Validation Error`,

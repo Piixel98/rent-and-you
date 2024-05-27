@@ -2,17 +2,15 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $AuthBaseModel = {
+export const $RGPDUpdateModel = {
+    description: `RGPDUpdateModel represents a write model to update a rgpd`,
     properties: {
-        access_token: {
-    type: 'string',
+        rgpd: {
+    type: 'boolean',
     isRequired: true,
 },
-        token_type: {
-    type: 'string',
-},
-        expires_in: {
-    type: 'number',
+        lssi: {
+    type: 'boolean',
     isRequired: true,
 },
         user_id: {

@@ -20,6 +20,6 @@ export type UserCreateModel = {
     city: string;
     phone_number?: string;
     role: UserRole;
-    hashed_password?: string;
+    hashed_password: string;
     email: string;
 };

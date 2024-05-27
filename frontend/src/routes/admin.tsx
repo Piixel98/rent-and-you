@@ -11,7 +11,7 @@ import UsersAdmin from "./admin/users.tsx";
 import NavBarWithSubnavigation from "../components/Common/Navbar.tsx";
 import UserMenu from "../components/Common/UserMenu.tsx";
 import Footer from "../components/Common/Footer.tsx";
-import {isLoggedIn, getRole} from "../hooks/useAuth.ts";
+import useAuth, {isLoggedIn} from "../hooks/useAuth.ts";
 
 
 export const Route = createFileRoute('/admin')({
@@ -27,8 +27,8 @@ export const Route = createFileRoute('/admin')({
 
 function AdminPanel() {
     const navigate = useNavigate()
-
-    if (getRole() !== 'admin') {
+    const {user} = useAuth()
+    if (user?.role != "admin") {
         navigate({to: '/search'});
     }
 

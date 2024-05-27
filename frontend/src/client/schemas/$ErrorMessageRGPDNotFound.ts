@@ -2,21 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $AuthBaseModel = {
+export const $ErrorMessageRGPDNotFound = {
     properties: {
-        access_token: {
+        detail: {
     type: 'string',
     isRequired: true,
-},
-        token_type: {
-    type: 'string',
-},
-        expires_in: {
-    type: 'number',
-    isRequired: true,
-},
-        user_id: {
-    type: 'number',
 },
     },
 } as const;
