@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Body_login_access_token_api_v1_auth_login_access_token_post = {
+export type Body_auth_signin_api_v1_auth_signin_post = {
     grant_type?: string;
     username: string;
     password: string;
