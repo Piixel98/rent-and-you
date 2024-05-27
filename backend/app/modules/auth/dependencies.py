@@ -15,10 +15,13 @@ from app.modules.auth.domain.usecases.get_user_me import (
     GetUserMeUseCase,
     GetUserMeUseCaseImpl,
 )
+from app.modules.auth.domain.usecases.get_user_rents import GetUserRentsUseCaseImpl
 from app.modules.auth.domain.usecases.update_user_me import (
     UpdateUserMeUseCase,
     UpdateUserMeUseCaseImpl,
 )
+from app.modules.rent.dependencies import get_rent_query_service
+from app.modules.rent.domain.services.rent_query_service import RentQueryService
 from app.modules.user.dependencies import get_user_query_service, get_user_unit_of_work
 from app.modules.user.domain.repositories.user_unit_of_work import UserUnitOfWork
 from app.modules.user.domain.services.user_query_service import UserQueryService
@@ -77,4 +80,14 @@ def update_user_me_use_case(
 ) -> UpdateUserMeUseCase:
     return UpdateUserMeUseCaseImpl(
         auth_unit_of_work=auth_unit_of_work, user_unit_of_work=user_unit_of_work
+    )
+
+
+def get_user_rents_use_case(
+    rent_query_service: RentQueryService = Depends(get_rent_query_service),
+    unit_of_work: AuthUnitOfWork = Depends(get_auth_unit_of_work),
+) -> GetUserMeUseCase:
+    return GetUserRentsUseCaseImpl(
+        rent_query_service=rent_query_service,
+        auth_unit_of_work=unit_of_work,
     )

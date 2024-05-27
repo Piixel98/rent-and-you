@@ -28,7 +28,7 @@ const UserMenu = () => {
             as={IconButton}
             aria-label="Options"
             icon={<FaUserCircle color="white" fontSize="18px" />}
-            bg="ui.main"
+            bg={"green.400"}
             isRound
           />
           <MenuList>

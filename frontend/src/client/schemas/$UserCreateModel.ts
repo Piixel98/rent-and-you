@@ -18,6 +18,11 @@ export const $UserCreateModel = {
     isRequired: true,
     format: 'date',
 },
+        birth_date: {
+    type: 'string',
+    isRequired: true,
+    format: 'date',
+},
         first_name: {
     type: 'string',
     isRequired: true,

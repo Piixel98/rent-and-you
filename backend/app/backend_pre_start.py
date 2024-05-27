@@ -1,9 +1,10 @@
 import logging
 
-from sqlalchemy import engine, select
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
 
+from app.core.database.postgres.database import engine
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -30,7 +31,7 @@ def init(db_engine: engine) -> None:
 
 def main() -> None:
     logger.info("Initializing service")
-    init(engine)
+    init()
     logger.info("Service finished initializing")
 
 

@@ -49,10 +49,12 @@ function AdminTable({ table_caption, data, headers, handleAdd, handleDelete, han
 
   const filteredHeaders = headers.filter(header => !['is_deleted', 'rents'].includes(header));
 
-  const capitalize = (s: string) => {
+  const format = (s: string) => {
     if (typeof s !== 'string') return '';
-    return s.charAt(0).toUpperCase() + s.slice(1);
-  }
+    const withoutSpaces = s.replace(/\s+/g, '');
+    const withSpaces = withoutSpaces.replace(/_/g, ' ');
+    return withSpaces.charAt(0).toUpperCase() + withSpaces.slice(1);
+}
 
   return (
     <>
@@ -68,7 +70,7 @@ function AdminTable({ table_caption, data, headers, handleAdd, handleDelete, han
               <Thead>
                 <Tr>
                   {filteredHeaders.map((header, index) => (
-                    <Th key={index} fontSize="xs">{capitalize(header)}</Th>
+                    <Th key={index} fontSize="xs">{format(header)}</Th>
                   ))}
                   <Th fontSize="xs"></Th>
                   <Th fontSize="xs"></Th>
@@ -80,7 +82,7 @@ function AdminTable({ table_caption, data, headers, handleAdd, handleDelete, han
                     {filteredHeaders.map((header, index) => (
                       <Td key={index} fontSize="xs">
                         <Input
-                          placeholder={capitalize(header)}
+                          placeholder={format(header)}
                           value={newRow[header] || ''}
                           onChange={(e) => handleInputChange(e, header)}
                           size="sm"
@@ -134,7 +136,7 @@ function AdminTable({ table_caption, data, headers, handleAdd, handleDelete, han
                     {filteredHeaders.map((header, index) => (
                       <Td key={index} fontSize="xs">
                         <Input
-                          placeholder={capitalize(header)}
+                          placeholder={format(header)}
                           value={newRow[header] || ''}
                           onChange={(e) => handleInputChange(e, header)}
                           size="sm"

@@ -74,3 +74,4 @@ def init_db() -> None:
 
         if os.path.exists(__SETTINGS.FILE_IMPORT_SQL):
             execute_sql_script(engine, __SETTINGS.FILE_IMPORT_SQL)
+        session.close()

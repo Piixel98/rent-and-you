@@ -33,6 +33,7 @@ class UserEntity(object):
         email: str,
         city: str,
         hashed_password: str,
+        birth_date: date | None = None,
         role: str = UserRole.USER,
         is_active: bool | None = True,
         created_at: datetime | None = None,
@@ -49,6 +50,7 @@ class UserEntity(object):
         self.postal_code = postal_code
         self.address = address
         self.city = city
+        self.birth_date = birth_date
         self.phone_number = phone_number
         self.role = role
         self.hashed_password = hashed_password

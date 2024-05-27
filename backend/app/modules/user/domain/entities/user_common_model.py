@@ -5,10 +5,10 @@ from pydantic import BaseModel, Field
 
 
 class DocumentType(str, Enum):
-    nif = "nif"
-    cif = "cif"
-    nie = "nie"
-    passport = "passport"
+    NIF = "NIF"
+    CIF = "CIF"
+    NIE = "NIE"
+    PASAPORTE = "PASAPORTE"
 
 
 class UserRole(str, Enum):
@@ -25,9 +25,10 @@ class UserBaseModel(BaseModel):
     UserBase common fields
     """
 
-    document_type: DocumentType | None = Field(default=DocumentType.nif)
+    document_type: DocumentType | None = Field(default=DocumentType.NIF)
     document_id: str | None
     expiration_date: date | None
+    birth_date: date | None
     first_name: str | None
     last_name: str | None
     postal_code: str | None

@@ -13,6 +13,7 @@ export type UserReadModel = {
     document_type?: DocumentType;
     document_id?: string;
     expiration_date?: string;
+    birth_date?: string;
     first_name?: string;
     last_name?: string;
     postal_code?: string;
@@ -23,8 +24,8 @@ export type UserReadModel = {
     hashed_password?: string;
     email?: string;
     id_?: number;
-    is_active: boolean;
-    is_deleted: boolean;
-    created_at: string;
-    updated_at: string;
+    is_active?: boolean;
+    is_deleted?: boolean;
+    created_at?: string;
+    updated_at?: string;
 };

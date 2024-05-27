@@ -18,6 +18,10 @@ export const $UserReadModel = {
     type: 'string',
     format: 'date',
 },
+        birth_date: {
+    type: 'string',
+    format: 'date',
+},
         first_name: {
     type: 'string',
 },

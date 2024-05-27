@@ -13,6 +13,7 @@ export type UserUpdateModel = {
     document_type?: DocumentType;
     document_id?: string;
     expiration_date?: string;
+    birth_date?: string;
     first_name?: string;
     last_name?: string;
     postal_code?: string;

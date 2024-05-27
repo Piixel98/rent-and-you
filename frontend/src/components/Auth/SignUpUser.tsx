@@ -22,7 +22,7 @@ import {useNavigate} from "@tanstack/react-router";
 import {ViewIcon, ViewOffIcon} from "@chakra-ui/icons";
 
 function SignupUser() {
-    const [documentType, setDocumentType] = useState<DocumentType>('nif');
+    const [documentType, setDocumentType] = useState<DocumentType>('NIF');
     const [documentId, setDocumentId] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -43,7 +43,7 @@ function SignupUser() {
     const showToast = useCustomToast();
     const { login } = useAuth();
     const navigate = useNavigate();
-    const documentTypes: DocumentType[] = ['nif', 'cif', 'nie', 'passport'];
+    const documentTypes: DocumentType[] = ['NIF', 'CIF', 'NIE', 'Pasaporte'];
 
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();

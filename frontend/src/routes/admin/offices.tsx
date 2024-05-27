@@ -62,12 +62,12 @@ function OfficesAdmin() {
   };
 
   const officeModel: OfficeReadModel = {
+    id_: 0,
     name: '',
     phone: '',
+    email: '',
     address: '',
     postal_code: '',
-    email: '',
-    id_: 0,
     city: '',
     is_deleted: false,
     created_at: '',

@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional
 
 from pydantic import Field
 
@@ -12,11 +11,11 @@ class UserReadModel(UserBaseModel):
     UserReadModel represents data structure as a read model
     """
 
-    id_: Optional[int] = Field()
-    is_active: bool = Field(example=True)
-    is_deleted: bool = Field(example=True)
-    created_at: datetime
-    updated_at: datetime
+    id_: int | None = Field()
+    is_active: bool | None = Field(example=True)
+    is_deleted: bool | None = Field(example=True)
+    created_at: datetime | None
+    updated_at: datetime | None
 
     class Config:
         orm_mode = True

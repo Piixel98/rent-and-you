@@ -18,6 +18,7 @@ export type { ErrorMessageOfficeAlreadyExists } from './models/ErrorMessageOffic
 export type { ErrorMessageOfficeNotFound } from './models/ErrorMessageOfficeNotFound';
 export type { ErrorMessageRentAlreadyExists } from './models/ErrorMessageRentAlreadyExists';
 export type { ErrorMessageRentNotFound } from './models/ErrorMessageRentNotFound';
+export type { ErrorMessageRentsNotFound } from './models/ErrorMessageRentsNotFound';
 export type { ErrorMessageRGPDAlreadyExists } from './models/ErrorMessageRGPDAlreadyExists';
 export type { ErrorMessageRGPDNotFound } from './models/ErrorMessageRGPDNotFound';
 export type { ErrorMessageUserAlreadyExists } from './models/ErrorMessageUserAlreadyExists';
@@ -56,6 +57,7 @@ export { $ErrorMessageOfficeAlreadyExists } from './schemas/$ErrorMessageOfficeA
 export { $ErrorMessageOfficeNotFound } from './schemas/$ErrorMessageOfficeNotFound';
 export { $ErrorMessageRentAlreadyExists } from './schemas/$ErrorMessageRentAlreadyExists';
 export { $ErrorMessageRentNotFound } from './schemas/$ErrorMessageRentNotFound';
+export { $ErrorMessageRentsNotFound } from './schemas/$ErrorMessageRentsNotFound';
 export { $ErrorMessageRGPDAlreadyExists } from './schemas/$ErrorMessageRGPDAlreadyExists';
 export { $ErrorMessageRGPDNotFound } from './schemas/$ErrorMessageRGPDNotFound';
 export { $ErrorMessageUserAlreadyExists } from './schemas/$ErrorMessageUserAlreadyExists';

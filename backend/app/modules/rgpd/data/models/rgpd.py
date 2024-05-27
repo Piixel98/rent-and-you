@@ -22,11 +22,11 @@ class RGPD(Base):
     def to_entity(self) -> RGPDEntity:
         return RGPDEntity(
             id_=self.id_,
-            rpgd=self.rgpd,
             lssi=self.lssi,
             user_id=self.user_id,
             created_at=self.created_at,
             updated_at=self.updated_at,
+            rgpd=self.rgpd,
         )
 
     def to_dict(self):

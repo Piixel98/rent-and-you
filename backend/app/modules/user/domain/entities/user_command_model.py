@@ -18,6 +18,7 @@ class UserCreateModel(UserBaseModel):
     document_id: str
     expiration_date: date
     first_name: str
+    birth_date: date
     postal_code: str
     address: str
     city: str

@@ -22,12 +22,12 @@ function VehiclesGridWithPagination({vehicles, office_id, pickup_date, return_da
     const currentPageData = vehicles
      .slice(offset, offset + vehiclesPerPage)
      .map(vehicle =>
-         <VehicleCard key={vehicle.id_}
+         <VehicleCard key={vehicle.id_||0}
                       vehicle={vehicle}
-                      office_id={office_id}
-                      pickup_date={pickup_date}
-                      return_date={return_date}
-                      total_days={total_days}
+                      officeId={office_id}
+                      pickupDate={pickup_date}
+                      returnDate={return_date}
+                      totalDays={total_days}
          />);
 
     const pageCount = Math.ceil(vehicles.length / vehiclesPerPage);

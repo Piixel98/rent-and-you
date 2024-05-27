@@ -19,9 +19,9 @@ class OfficeReadModel(OfficeBaseModel):
     city: str
     geo_location: str | None
     email: str = Field(example="test@test.com")
-    is_deleted: bool = Field(example=True)
-    created_at: datetime
-    updated_at: datetime
+    is_deleted: bool | None = Field(example=True)
+    created_at: datetime | None
+    updated_at: datetime | None
     rents: list[int | None] | None
 
     class Config:

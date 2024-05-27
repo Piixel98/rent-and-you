@@ -1,6 +1,6 @@
 import {
   Box,
-  Container, Flex,
+  Container,
   Heading,
   Tab,
   TabList,
@@ -15,11 +15,13 @@ import NavBarWithSubnavigation from "../components/Common/Navbar.tsx";
 import UserMenu from "../components/Common/UserMenu.tsx";
 import Footer from "../components/Common/Footer.tsx";
 import useAuth, {isLoggedIn} from "../hooks/useAuth.ts";
+import Appearance from "../components/Settings/Appearance.tsx";
 
 
 const tabsConfig = [
   { title: 'Mi cuenta', component: UserInformation },
-  { title: 'Mis reservas', component: RentsInformation }
+  { title: 'Mis reservas', component: RentsInformation },
+  { title: 'Apariencia', component: Appearance},
 ]
 
 export const Route = createFileRoute('/settings')({
@@ -40,14 +42,14 @@ function UserSettings() {
     : tabsConfig
 
   return (
-      <Flex direction="column" maxW="large" h="auto" minH="100vh">
+      <>
         <NavBarWithSubnavigation />
         <UserMenu />
         <Container mt={50} ml={10}>
           <Heading color={"green.400"} size="lg" textAlign={{ base: 'center', md: 'left' }} py={12}>
             Bienvenido {user?.first_name}
           </Heading>
-          <Tabs colorScheme={"green"}>
+          <Tabs colorScheme={"green"} width={1000}>
             <TabList>
               {finalTabs.map((tab, index) => (
                 <Tab key={index}>{tab.title}</Tab>
@@ -65,8 +67,7 @@ function UserSettings() {
         <Box mt="auto">
           <Footer />
         </Box>
-    </Flex>
-
+      </>
   )
 }
 

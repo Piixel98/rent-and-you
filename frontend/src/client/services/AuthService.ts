@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { AuthBaseModel } from '../models/AuthBaseModel';
 import type { Body_auth_signin_api_v1_auth_signin_post } from '../models/Body_auth_signin_api_v1_auth_signin_post';
+import type { RentReadModel } from '../models/RentReadModel';
 import type { UserCreateModel } from '../models/UserCreateModel';
 import type { UserReadModel } from '../models/UserReadModel';
 import type { UserUpdateModel } from '../models/UserUpdateModel';
@@ -91,6 +92,22 @@ requestBody: UserUpdateModel,
             errors: {
                 400: `Bad Request`,
                 422: `Validation Error`,
+            },
+        });
+    }
+
+    /**
+     * Get User Rents
+     * @returns RentReadModel Successful Response
+     * @throws ApiError
+     */
+    public static getUserRentsApiV1AuthUserRentsGet(): CancelablePromise<Array<RentReadModel>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/auth/user/rents',
+            errors: {
+                400: `Bad Request`,
+                404: `Not Found`,
             },
         });
     }

@@ -36,7 +36,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-init()
 
 
 @app.get("/", include_in_schema=False)

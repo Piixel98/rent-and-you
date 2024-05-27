@@ -10,10 +10,10 @@ from app.modules.user.domain.entities.user_entity import UserEntity
 
 
 class DocumentType:
-    nif = "nif"
-    cif = "cif"
-    nie = "nie"
-    passport = "passport"
+    NIF = "NIF"
+    CIF = "CIF"
+    NIE = "NIE"
+    PASAPORTE = "PASAPORTE"
 
 
 class UserRole(str, Enum):
@@ -37,6 +37,7 @@ class User(Base):
     address: Mapped[str] | str = Column(String)
     city: Mapped[str] | str = Column(String)
     phone_number: Mapped[str] | str = Column(String)
+    birth_date: Mapped[date] | date = Column(Date)
     role: Mapped[str] = Column(String)
     email: Mapped[str] | str = Column(String, index=True)
     hashed_password: Mapped[str] | str = Column(String)
@@ -54,6 +55,7 @@ class User(Base):
             address=self.address,
             city=self.city,
             phone_number=self.phone_number,
+            birth_date=self.birth_date,
             role=self.role,
             hashed_password=self.hashed_password,
             email=self.email,
@@ -75,6 +77,7 @@ class User(Base):
             "address": self.address,
             "city": self.city,
             "phone_number": self.phone_number,
+            "birth_date": self.birth_date,
             "role": self.role,
             "hashed_password": self.hashed_password,
             "email": self.email,
@@ -96,6 +99,7 @@ class User(Base):
             address=self.address,
             city=self.city,
             phone_number=self.phone_number,
+            birth_date=self.birth_date,
             role=self.role,
             hashed_password=self.hashed_password,
             email=self.email,
@@ -116,6 +120,7 @@ class User(Base):
             last_name=user.last_name,
             postal_code=user.postal_code,
             address=user.address,
+            birth_date=user.birth_date,
             city=user.city,
             phone_number=user.phone_number,
             role=user.role,

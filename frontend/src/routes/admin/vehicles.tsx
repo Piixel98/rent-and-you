@@ -61,21 +61,21 @@ function VehiclesAdmin() {
   };
 
   const vehicleModel: VehicleCreateModel = {
+    office_id: 0,
     brand: 'Seat',
     model: '',
-    image_url: '',
+    license_plate:'',
     passengers: 0,
     avg_consumption: 0,
     price_per_day: 0,
-    office_id: 0,
     fare: 'Smart',
     gearbox: 'Manual',
     body_type: 'SUV',
     version:'',
     kms:0,
     color:'',
-    license_plate:'',
-    purchase_date: new Date().toISOString()
+    image_url: '',
+    purchase_date: '2021-01-01',
   };
 
   return (

@@ -6,4 +6,4 @@
 /**
  * An enumeration.
  */
-export type DocumentType = 'nif' | 'cif' | 'nie' | 'passport';
+export type DocumentType = 'NIF' | 'CIF' | 'NIE' | 'PASAPORTE';

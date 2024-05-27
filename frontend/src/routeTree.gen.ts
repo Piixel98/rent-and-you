@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as WelcomeImport } from './routes/welcome'
 import { Route as VehiclesImport } from './routes/vehicles'
+import { Route as SuccessImport } from './routes/success'
 import { Route as SignupImport } from './routes/signup'
 import { Route as SettingsImport } from './routes/settings'
 import { Route as SearchImport } from './routes/search'
@@ -38,6 +39,11 @@ const WelcomeRoute = WelcomeImport.update({
 
 const VehiclesRoute = VehiclesImport.update({
   path: '/vehicles',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SuccessRoute = SuccessImport.update({
+  path: '/success',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -160,6 +166,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
     }
+    '/success': {
+      preLoaderRoute: typeof SuccessImport
+      parentRoute: typeof rootRoute
+    }
     '/vehicles': {
       preLoaderRoute: typeof VehiclesImport
       parentRoute: typeof rootRoute
@@ -209,6 +219,7 @@ export const routeTree = rootRoute.addChildren([
   SearchRoute,
   SettingsRoute,
   SignupRoute,
+  SuccessRoute,
   VehiclesRoute,
   WelcomeRoute,
 ])

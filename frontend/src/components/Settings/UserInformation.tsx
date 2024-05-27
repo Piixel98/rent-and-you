@@ -97,7 +97,7 @@ const UserInformation: React.FC = () => {
                   size="md"
                 />
               ) : (
-                <Text size="md" py={2}>
+                <Text size="md" py={2} >
                   {user?.first_name || 'N/A'}
                 </Text>
               )}

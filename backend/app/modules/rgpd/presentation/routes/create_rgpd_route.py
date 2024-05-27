@@ -24,6 +24,6 @@ def create_rgpd(
     request: Request,
     create_rgpd_use_case: CreateRGPDUseCase = Depends(get_create_rgpd_use_case),
 ):
-    rgpd = create_rgpd_use_case((data,))
+    rgpd = create_rgpd_use_case(data)
     response.headers["location"] = f"{request.url.path}{rgpd.id_}"
     return rgpd
