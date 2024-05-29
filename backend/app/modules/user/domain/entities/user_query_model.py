@@ -14,8 +14,8 @@ class UserReadModel(UserBaseModel):
     id_: int | None = Field()
     is_active: bool | None = Field(example=True)
     is_deleted: bool | None = Field(example=True)
-    created_at: datetime | None
-    updated_at: datetime | None
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
 
     class Config:
         orm_mode = True

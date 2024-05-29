@@ -18,14 +18,17 @@ const useAuth = () => {
     },
   )
 
-  const login = async (data: Body_auth_signin_api_v1_auth_signin_post) => {
+  const login = async (data: Body_auth_signin_api_v1_auth_signin_post, nextUrl: string | null = null) => {
     const response = await AuthService.authSigninApiV1AuthSigninPost({
       formData: data,
     })
-    console.log(response);
     localStorage.setItem('access_token', response.access_token)
-    navigate({to: '/welcome'})
-  }
+    if (nextUrl) {
+      navigate({to: nextUrl})
+    } else {
+      navigate({to: '/welcome'})
+    }
+}
 
   const logout = () => {
     localStorage.removeItem('access_token')

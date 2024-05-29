@@ -42,7 +42,7 @@ export default function NavBarWithSubnavigation() {
         position="fixed"
         top="0"
         width="100%"
-        zIndex="9999"
+        zIndex="500"
       >
         <Flex
           flex={{ base: 1, md: 'auto' }}

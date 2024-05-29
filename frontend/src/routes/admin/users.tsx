@@ -66,19 +66,24 @@ function UsersAdmin() {
     expiration_date: '',
     first_name: '',
     last_name: '',
+    birth_date: '',
     phone_number: '',
     email: '',
     address: '',
     postal_code: '',
     city: '',
     hashed_password: '*********',
-    role: 'user'
+    role: 'user',
+    is_active: true,
+    is_deleted: false,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   };
 
   return (
     <>
-      <AdminTable table_caption="Usuarios" headers={Object.keys(userModel)} key="id_" data={users} handleDelete={handleDeleteUser}
-                  handleUpdate={handleUpdateUser} handleAdd={handleAddUser}></AdminTable>
+        <AdminTable table_caption="Usuarios" headers={Object.keys(userModel)} key="id_" data={users} handleDelete={handleDeleteUser}
+                    handleUpdate={handleUpdateUser} handleAdd={handleAddUser}></AdminTable>
     </>
   )
 }

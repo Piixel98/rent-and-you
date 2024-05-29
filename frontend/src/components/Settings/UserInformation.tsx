@@ -147,7 +147,7 @@ const UserInformation: React.FC = () => {
             )}
           </FormControl>
           <Grid templateColumns="2fr 1fr" gap={2} width={"100%"}>
-            <FormControl>
+            <FormControl mt={4}>
               <FormLabel color={color} htmlFor="city">
                 Ciudad
               </FormLabel>
@@ -164,7 +164,7 @@ const UserInformation: React.FC = () => {
                 </Text>
               )}
             </FormControl>
-            <FormControl>
+            <FormControl mt={4}>
               <FormLabel color={color} htmlFor="postal_code">
                 Código Postal
               </FormLabel>
@@ -182,7 +182,7 @@ const UserInformation: React.FC = () => {
               )}
             </FormControl>
             </Grid>
-          <FormControl>
+          <FormControl mt={4}>
             <FormLabel color={color} htmlFor="address">
               Dirección
             </FormLabel>

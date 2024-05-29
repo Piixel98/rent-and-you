@@ -2,12 +2,19 @@ import NavBarWithSubnavigation from "../components/Common/Navbar.tsx";
 import UserMenu from "../components/Common/UserMenu.tsx";
 import {Box, Flex} from "@chakra-ui/react";
 import Footer from "../components/Common/Footer.tsx";
-import { createFileRoute } from '@tanstack/react-router';
+import {createFileRoute, redirect} from '@tanstack/react-router';
 import SuccessComponent from "../components/Rent/Success.tsx";
+import {isLoggedIn} from "../hooks/useAuth.ts";
 
 export const Route = createFileRoute('/success')({
   component: LoginPage,
-  beforeLoad: () => {},
+  beforeLoad: async () => {
+    if (!isLoggedIn()) {
+      throw redirect({
+        to: '/',
+      })
+    }
+  }
 });
 
 function LoginPage() {

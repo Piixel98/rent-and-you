@@ -18,7 +18,7 @@ import WelcomeUser from "./WelcomeUser.tsx";
 import useAuth, {isLoggedIn} from "../../hooks/useAuth.ts";
 import {ViewIcon, ViewOffIcon} from "@chakra-ui/icons";
 
-function LoginUser() {
+function LoginUser({nextUrl = '/'}: { nextUrl?: string }) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,9 +28,10 @@ function LoginUser() {
 
   const toast = useCustomToast();
   const handleSubmit = async (e: React.FormEvent) => {
+    nextUrl = nextUrl || '/';
     try {
       e.preventDefault();
-      await login({ username: email, password: password }).catch();
+      await login({ username: email, password: password }, nextUrl).catch();
       toast('Sesión iniciada!', 'Has iniciado sesión con éxito.', 'success');
     } catch (error) {
       const err = error as { status?: number };

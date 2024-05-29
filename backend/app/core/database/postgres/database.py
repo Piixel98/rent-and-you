@@ -1,7 +1,6 @@
 """
     Sql alchemy database module
 """
-import os.path
 from typing import Iterator, Generator
 
 from sqlalchemy import create_engine
@@ -72,6 +71,6 @@ def init_db() -> None:
             session.commit()
             session.refresh(user_in)
 
-        if os.path.exists(__SETTINGS.FILE_IMPORT_SQL):
+        if __SETTINGS.FILE_IMPORT_SQL and __SETTINGS.FILE_IMPORT_SQL != "import.sql":
             execute_sql_script(engine, __SETTINGS.FILE_IMPORT_SQL)
         session.close()

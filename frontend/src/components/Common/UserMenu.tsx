@@ -21,7 +21,7 @@ const UserMenu = () => {
         position="fixed"
         top={2}
         right={4}
-        style={{ zIndex: 10000 }}
+        style={{ zIndex: 600 }}
       >
         <Menu>
           <MenuButton

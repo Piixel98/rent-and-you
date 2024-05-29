@@ -8,7 +8,7 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  useDisclosure
+  useDisclosure, Center
 } from "@chakra-ui/react";
 import DrawerItems from './DrawerItems.tsx';
 import { useState } from 'react';
@@ -32,7 +32,9 @@ const DrawerFilter: React.FC<DrawerFilterProps> = ({ onFilterChange }) => {
 
   return (
     <Box>
-      <Button colorScheme="green" onClick={onOpen}>Aplicar filtros</Button>
+      <Center>
+        <Button colorScheme="green" onClick={onOpen}>Aplicar filtros</Button>
+      </Center>
       <Drawer isOpen={isOpen} placement="top" onClose={onClose}>
         <DrawerOverlay>
           <DrawerContent>

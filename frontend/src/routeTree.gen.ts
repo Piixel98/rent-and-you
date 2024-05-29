@@ -19,6 +19,7 @@ import { Route as SettingsImport } from './routes/settings'
 import { Route as SearchImport } from './routes/search'
 import { Route as RentImport } from './routes/rent'
 import { Route as PrivacyImport } from './routes/privacy'
+import { Route as PaymentImport } from './routes/payment'
 import { Route as OfficesImport } from './routes/offices'
 import { Route as LoginImport } from './routes/login'
 import { Route as ContactImport } from './routes/contact'
@@ -69,6 +70,11 @@ const RentRoute = RentImport.update({
 
 const PrivacyRoute = PrivacyImport.update({
   path: '/privacy',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PaymentRoute = PaymentImport.update({
+  path: '/payment',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -146,6 +152,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OfficesImport
       parentRoute: typeof rootRoute
     }
+    '/payment': {
+      preLoaderRoute: typeof PaymentImport
+      parentRoute: typeof rootRoute
+    }
     '/privacy': {
       preLoaderRoute: typeof PrivacyImport
       parentRoute: typeof rootRoute
@@ -214,6 +224,7 @@ export const routeTree = rootRoute.addChildren([
   ContactRoute,
   LoginRoute,
   OfficesRoute,
+  PaymentRoute,
   PrivacyRoute,
   RentRoute,
   SearchRoute,

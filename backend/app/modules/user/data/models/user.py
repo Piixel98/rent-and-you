@@ -13,7 +13,7 @@ class DocumentType:
     NIF = "NIF"
     CIF = "CIF"
     NIE = "NIE"
-    PASAPORTE = "PASAPORTE"
+    PASAPORTE = "Pasaporte"
 
 
 class UserRole(str, Enum):

@@ -61,7 +61,7 @@ function Vehicles() {
           <DrawerFilter onFilterChange={handleFilterChange} />
         </Box>
       </Flex>
-      <Flex direction="row">
+      <Flex direction="row" mb={100}>
         <Flex flexGrow={1} direction="column" alignItems="center" justifyContent="center" mt={5} p={4}>
           {vehicles.length > 0 ? (
             <VehiclesGridWithPagination

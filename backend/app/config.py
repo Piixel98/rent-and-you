@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_DB: str
     POSTGRES_PASSWORD: str
-    FILE_IMPORT_SQL: str
+    FILE_IMPORT_SQL: str | None = None
 
     # Superuser
     FIRST_SUPERUSER_EMAIL: str = "ADMIN@ADMIN.COM"
@@ -23,3 +23,4 @@ class Settings(BaseSettings):
     # Auth
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
     SECRET_KEY: str = secrets.token_urlsafe(32)
+    ALGORITHM: str

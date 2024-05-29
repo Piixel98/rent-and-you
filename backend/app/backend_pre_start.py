@@ -31,7 +31,7 @@ def init(db_engine: engine) -> None:
 
 def main() -> None:
     logger.info("Initializing service")
-    init()
+    # init()
     logger.info("Service finished initializing")
 
 

@@ -1,6 +1,6 @@
 from typing import Sequence
 
-from sqlalchemy import update, delete
+from sqlalchemy import update, delete, desc
 from sqlalchemy.orm import Session
 
 from app.modules.rent.domain.entities.rent_entity import RentEntity
@@ -28,6 +28,8 @@ class RentRepositoryImpl(RentRepository):
 
         for key, value in kwargs.items():
             query = query.filter(getattr(Rent, key) == value)
+
+        query = query.order_by(desc(Rent.id_))
 
         return query.all()
 
