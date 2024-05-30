@@ -105,7 +105,7 @@ $ docker compose exec backend bash
 You should see an output like:
 
 ```console
-root@7f2607af31c3:/app#
+root@8x2934af42l9:/app#
 ```
 
 that means that you are in a `bash` session inside your container, as a `root` user, under the `/app` directory,

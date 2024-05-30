@@ -300,6 +300,33 @@ function Rent() {
                       <FormControl id="vales">
                         <Input type="text" placeholder="Añadir cupón" />
                       </FormControl>
+                      <Button colorScheme="green" mt={4} onClick={onOpen} isDisabled={!isUserFormValid}>
+                        ¡Reservar ahora!
+                      </Button>
+                      <Modal isOpen={isOpen} onClose={onClose}>
+                        <ModalOverlay />
+                        <ModalContent alignItems="center" justifyContent="center">
+                          <ModalHeader>Pago con tarjeta 💳</ModalHeader>
+                          <ModalCloseButton />
+                          <ModalBody>
+                            <PaymentGateway onClose={onClose} total_price={parseFloat(total_price)} handleUserFormSubmit={handleUserSubmit(handleUserFormSubmit)} />
+                          </ModalBody>
+                        </ModalContent>
+                      </Modal>
+                      <Text fontSize="xl" fontWeight="bold" mt={isLoggedIn() ? "0" : "120%"}>Total:</Text>
+                    <FormControl id="total">
+                      {loading ? (
+                        <Spinner size="xl" />
+                      ) : vehicle ? (
+                        <Input
+                          type="text"
+                          readOnly
+                          value={total_price}
+                        />
+                      ) : (
+                        <Text>No se encontró información del vehículo.</Text>
+                      )}
+                    </FormControl>
                     </>
                   ) : (
                     <Box>
@@ -316,34 +343,7 @@ function Rent() {
                       </Link>
                     </Box>
                   )}
-                  <Text fontSize="xl" fontWeight="bold" mt={isLoggedIn() ? "0" : "120%"}>Total:</Text>
-                  <FormControl id="total">
-                    {loading ? (
-                      <Spinner size="xl" />
-                    ) : vehicle ? (
-                      <Input
-                        type="text"
-                        readOnly
-                        value={total_price}
-                      />
-                    ) : (
-                      <Text>No se encontró información del vehículo.</Text>
-                    )}
-                  </FormControl>
-                  <Button colorScheme="green" mt={4} onClick={onOpen} isDisabled={!isUserFormValid}>
-                    ¡Reservar ahora!
-                  </Button>
-                  <Modal isOpen={isOpen} onClose={onClose}>
-                    <ModalOverlay />
-                    <ModalContent alignItems="center" justifyContent="center">
-                      <ModalHeader>Pago con tarjeta 💳</ModalHeader>
-                      <ModalCloseButton />
-                      <ModalBody>
-                        <PaymentGateway onClose={onClose} total_price={parseFloat(total_price)} handleUserFormSubmit={handleUserSubmit(handleUserFormSubmit)} />
-                      </ModalBody>
-                    </ModalContent>
-                  </Modal>
-                </VStack>
+                 </VStack>
             </Box>
             <GridItem borderWidth="1px" borderRadius="lg" p={5}>
               {loading ? (

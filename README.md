@@ -50,39 +50,7 @@ docker network create traefik-public
 
 ### Traefik Environment Variables
 
-The Traefik Docker Compose file expects some environment variables to be set.
-
-Create the environment variables for HTTP Basic Auth.
-
-* Create the username, e.g.:
-
-```bash
-export USERNAME=admin
-```
-
-* Create an environment variable with the password, e.g.:
-
-```bash
-export PASSWORD=admin
-```
-
-* Use openssl to generate the "hashed" version of the password and store it in an environment variable:
-
-```bash
-export HASHED_PASSWORD=$(openssl passwd -apr1 $PASSWORD)
-```
-
-* Create an environment variable with the domain name, e.g.:
-
-```bash
-export DOMAIN=rentandyou.com
-```
-
-* Create an environment variable with the email for Let's Encrypt, e.g.:
-
-```bash
-export EMAIL=admin@rentandyou.com
-```
+The Traefik Docker Compose file expects some environment variables to be set. Must be located in .env file.
 
 ### Start the Traefik Docker Compose
 
@@ -94,7 +62,7 @@ docker compose -f docker-compose.traefik.yml up -d
 
 ## Deploy the Project
 
-Now that you have Traefik in place you can deploy your FastAPI project with Docker Compose.
+Now that you have Traefik in place you can deploy the project with Docker Compose.
 
 You could configure the variables in the `.env` file to match your domain, or you could override them before running the `docker compose` command.
 

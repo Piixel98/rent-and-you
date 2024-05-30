@@ -6,11 +6,11 @@ import { createFileRoute } from '@tanstack/react-router';
 import WelcomeUser from "../components/Auth/WelcomeUser.tsx";
 
 export const Route = createFileRoute('/welcome')({
-  component: LoginPage,
+  component: WelcomePage,
   beforeLoad: () => {},
 });
 
-function LoginPage() {
+function WelcomePage() {
   return (
       <Flex direction="column" maxW="large" h="auto" minH="100vh">
         <NavBarWithSubnavigation />
@@ -23,4 +23,4 @@ function LoginPage() {
   );
 };
 
-export default LoginPage;
+export default WelcomePage;
