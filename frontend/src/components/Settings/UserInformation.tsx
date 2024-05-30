@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import {
   Box,
   Button,
@@ -18,7 +18,21 @@ import {ApiError, AuthService, UserReadModel, UserUpdateModel} from '../../clien
 import useAuth from '../../hooks/useAuth'
 import {useMutation, useQueryClient} from "react-query";
 import useCustomToast from "../../hooks/useCustomToast.ts";
+import {Link} from "@tanstack/react-router";
 
+const defaultUserValues: UserReadModel = {
+  document_type: 'NIF',
+  email: '',
+  first_name: '',
+  last_name: '',
+  city: '',
+  postal_code: '',
+  address: '',
+  is_active: true,
+  is_deleted: false,
+  created_at: '',
+  updated_at: ''
+};
 
 const UserInformation: React.FC = () => {
   const queryClient = useQueryClient()
@@ -26,6 +40,37 @@ const UserInformation: React.FC = () => {
   const [editMode, setEditMode] = useState(false)
   const toast = useCustomToast()
   const { user: user } = useAuth()
+
+  const [userValues, setUserValues] = useState<UserReadModel>(defaultUserValues);
+
+  useEffect(() => {
+    setUserValues({
+      document_type: user?.document_type || 'NIF',
+      email: user?.email || '',
+      first_name: user?.first_name || '',
+      last_name: user?.last_name || '',
+      city: user?.city || '',
+      postal_code: user?.postal_code || '',
+      address: user?.address || '',
+      is_active: user?.is_active || true,
+      is_deleted: user?.is_deleted || false,
+      created_at: user?.created_at || '',
+      updated_at: user?.updated_at || ''
+    });
+  }, [user]);
+
+  const toggleEditMode = () => {
+    if (!editMode) {
+      setUserValues(getValues());
+    }
+    setEditMode(!editMode);
+  }
+
+  const onCancel = () => {
+    reset(userValues);
+    toggleEditMode();
+  }
+
   const {
     register,
     handleSubmit,
@@ -68,15 +113,6 @@ const UserInformation: React.FC = () => {
     mutation.mutate(data)
   }
 
-  const toggleEditMode = () => {
-    setEditMode(!editMode)
-  }
-
-  const onCancel = () => {
-    reset()
-    toggleEditMode()
-  }
-
   return (
     <>
       <Container maxW="full" as="form" onSubmit={handleSubmit(onSubmit)}>
@@ -92,6 +128,7 @@ const UserInformation: React.FC = () => {
               {editMode ? (
                 <Input
                   id="name"
+                  defaultValue={user?.first_name}
                   {...register('first_name', { maxLength: 30 })}
                   type="text"
                   size="md"
@@ -126,6 +163,7 @@ const UserInformation: React.FC = () => {
             </FormLabel>
             {editMode ? (
               <Input
+                disabled={true}
                 id="email"
                 {...register('email', {
                   required: 'El email es obligatorio',
@@ -136,12 +174,14 @@ const UserInformation: React.FC = () => {
                 })}
                 type="text"
                 size="md"
+                isReadOnly
               />
             ) : (
               <Text size="md" py={2}>
                 {user?.email || 'N/A'}
               </Text>
             )}
+            <Text fontSize="sm"><Text as="span" color="red">*</Text> Para modificar la dirección de correo, <Text as={Link} to="/contact" textDecoration="underline">póngase en contacto con soporte</Text>.</Text>
             {errors.email && (
               <FormErrorMessage>{errors.email.message}</FormErrorMessage>
             )}

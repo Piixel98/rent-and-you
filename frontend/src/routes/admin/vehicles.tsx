@@ -1,11 +1,19 @@
-import {createFileRoute} from '@tanstack/react-router'
+import {createFileRoute, redirect} from '@tanstack/react-router'
 import {useEffect, useState} from "react";
 import {VehicleService, VehicleReadModel, VehicleCreateModel, VehicleUpdateModel} from "../../client";
 import useCustomToast from '../../hooks/useCustomToast';
 import AdminTable from "../../components/Admin/AdminTable.tsx";
+import {isLoggedIn} from "../../hooks/useAuth.ts";
 
 export const Route = createFileRoute('/admin/vehicles')({
   component: VehiclesAdmin,
+  beforeLoad: async () => {
+    if (!isLoggedIn()) {
+      throw redirect({
+        to: '/',
+      });
+    }
+  }
 })
 
 function VehiclesAdmin() {

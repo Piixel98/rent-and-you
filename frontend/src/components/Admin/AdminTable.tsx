@@ -4,10 +4,10 @@ import {
   Tbody,
   Tr,
   Th,
-  Td,
+  Flex,
   TableContainer,
   Input,
-  Box, Text, Spinner
+  Box, Text, Spinner, Stack, Button, Td
 } from '@chakra-ui/react'
 import { AddIcon, CheckIcon, DeleteIcon, RepeatIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from 'react';
@@ -29,14 +29,27 @@ function AdminTable({ table_caption, data, headers, handleAdd, handleDelete, han
   const [showAddRow, setShowAddRow] = useState(false);
   const [newRow, setNewRow] = useState<RowData>({});
   const [editing, setEditing] = useState<RowData>({});
-  const [editingRowId, setEditingRowId] = useState(null);
+  const [editingRowId, setEditingRowId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const handlePageClick = (selectedPage: number) => {
+    setCurrentPage(selectedPage);
+  }
+
+  const rowsPerPage = 15;
+  const offset = currentPage * rowsPerPage;
+
+  const currentPageData = data.slice(offset, offset + rowsPerPage);
+
+  const pageCount = Math.ceil(data.length / rowsPerPage);
+
+  const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
 
   useEffect(() => {
     setIsLoading(true);
-    if (!data) return;
-    setIsLoading(false);
+    if (data) setIsLoading(false);
   }, [data]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
@@ -54,7 +67,7 @@ function AdminTable({ table_caption, data, headers, handleAdd, handleDelete, han
     const withoutSpaces = s.replace(/\s+/g, '');
     const withSpaces = withoutSpaces.replace(/_/g, ' ');
     return withSpaces.charAt(0).toUpperCase() + withSpaces.slice(1);
-}
+  }
 
   return (
     <>
@@ -77,7 +90,7 @@ function AdminTable({ table_caption, data, headers, handleAdd, handleDelete, han
                 </Tr>
               </Thead>
               <Tbody>
-                {(data && data.length === 0 && !showAddRow) ? (
+                {currentPageData.length === 0 && !showAddRow && (
                   <Tr>
                     {filteredHeaders.map((header, index) => (
                       <Td key={index} fontSize="xs">
@@ -103,34 +116,33 @@ function AdminTable({ table_caption, data, headers, handleAdd, handleDelete, han
                       )}
                     </Td>
                   </Tr>
-                ) : (
-                  data && data.map((row, index) => (
-                    <Tr key={index}>
-                      {filteredHeaders.map((header, index) => (
-                        <Td key={index} fontSize="xs" style={header === 'image_url' ? { maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } : {}}>
-                          {editingRowId === row.id_ ? (
-                            <Input
-                              value={editing && editing[header] || ''}
-                              onChange={(e) => handleEditingChange(e, header)}
-                              size="sm"
-                            />
-                          ) : (
-                            <span onClick={() => { setEditingRowId(row.id_); setEditing({ ...row }); }}>
-                              {row[header]}
-                            </span>
-                          )}
-                        </Td>
-                      ))}
-                      <Td fontSize="xs">
-                        <DeleteIcon onClick={() => handleDelete(row.id_)} />
-                        <RepeatIcon onClick={() => { handleUpdate(row.id_, editing); setEditing({}); setEditingRowId(null); }} />
-                      </Td>
-                      <Td fontSize="xs">
-                        {index === data.length - 1 && !showAddRow && <AddIcon onClick={() => setShowAddRow(true)} />}
-                      </Td>
-                    </Tr>
-                  ))
                 )}
+                {currentPageData.map((row, index) => (
+                  <Tr key={index}>
+                    {filteredHeaders.map((header, index) => (
+                      <Td key={index} fontSize="xs" style={header === 'image_url' ? { maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } : {}}>
+                        {editingRowId === row.id_ ? (
+                          <Input
+                            value={editing[header] || ''}
+                            onChange={(e) => handleEditingChange(e, header)}
+                            size="sm"
+                          />
+                        ) : (
+                          <span onClick={() => { setEditingRowId(row.id_); setEditing({ ...row }); }}>
+                            {row[header]}
+                          </span>
+                        )}
+                      </Td>
+                    ))}
+                    <Td fontSize="xs">
+                      <DeleteIcon onClick={() => handleDelete(row.id_)} />
+                      <RepeatIcon onClick={() => { handleUpdate(row.id_, editing); setEditing({}); setEditingRowId(null); }} />
+                    </Td>
+                    <Td fontSize="xs">
+                      {index === currentPageData.length - 1 && !showAddRow && <AddIcon onClick={() => setShowAddRow(true)} />}
+                    </Td>
+                  </Tr>
+                ))}
                 {showAddRow && (
                   <Tr>
                     {filteredHeaders.map((header, index) => (
@@ -156,6 +168,21 @@ function AdminTable({ table_caption, data, headers, handleAdd, handleDelete, han
                 )}
               </Tbody>
             </Table>
+          )}
+          {data.length > 0 && pageCount > 1 && (
+            <Flex wrap="wrap" justifyContent="center" mt={4}>
+              <Stack direction={{ base: "row", md: "row" }} spacing={2}>
+                {pages.map((page) => (
+                  <Button
+                    key={page}
+                    onClick={() => handlePageClick(page - 1)}
+                    colorScheme={page === currentPage + 1 ? "green" : "gray"}
+                  >
+                    {page}
+                  </Button>
+                ))}
+              </Stack>
+            </Flex>
           )}
         </TableContainer>
       </Box>

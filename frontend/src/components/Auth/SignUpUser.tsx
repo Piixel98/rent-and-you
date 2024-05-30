@@ -17,7 +17,7 @@ import {
     InputGroup,
     InputRightElement,
 } from '@chakra-ui/react';
-import { DocumentType, UserCreateModel, UserService } from "../../client";
+import {AuthService, DocumentType, UserCreateModel} from "../../client";
 import { useState } from "react";
 import useCustomToast from "../../hooks/useCustomToast.ts";
 import WelcomeUser from "./WelcomeUser.tsx";
@@ -76,7 +76,7 @@ function SignupUser() {
       };
 
       try {
-        UserService.createUserApiV1UsersPost({ requestBody: user }).then(
+        AuthService.authSignupApiV1AuthSignupPost({ requestBody: user }).then(
             (response) => {
                 if (response) {
                     console.log(response);

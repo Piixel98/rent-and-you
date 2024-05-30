@@ -21,12 +21,12 @@ import {
   Select,
   useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody
 } from '@chakra-ui/react';
-import { createFileRoute, Link } from '@tanstack/react-router';
+import {createFileRoute, Link, useNavigate} from '@tanstack/react-router';
 import UserMenu from '../components/Common/UserMenu.tsx';
 import Footer from '../components/Common/Footer.tsx';
 import NavBarWithSubnavigation from '../components/Common/Navbar.tsx';
 import NoVehicleImage from '../assets/images/no-vehicle.svg';
-import { parse, formatISO, startOfDay } from 'date-fns';
+import { parse, formatISO, startOfDay, format, parseISO } from 'date-fns';
 import {
   OfficeService,
   VehicleService,
@@ -82,29 +82,30 @@ function Rent() {
   const showToast = useCustomToast();
   const { user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
   const total_price = vehicle && vehicle.price_per_day && total_days
                             ? `${Number(vehicle.price_per_day) * Number(total_days)} €`
                             : ''
 
   const {
-    handleSubmit: handleUserSubmit,
-    register: userRegister,
-    formState: { isValid: isUserFormValid }
-  } = useForm<UserReadModel>({
-    mode: 'onBlur',
-    criteriaMode: 'all',
-    defaultValues: user || {
-      document_type: 'NIF',
-      document_id: '',
-      expiration_date: '',
-      first_name: '',
-      last_name: '',
-      email: '',
-      phone_number: '',
-      address: '',
-      birth_date: ''
-    },
-  });
+      handleSubmit: handleUserSubmit,
+      register: userRegister,
+      formState: { isValid: isUserFormValid }
+    } = useForm<UserReadModel>({
+      mode: 'onBlur',
+      criteriaMode: 'all',
+      defaultValues: user || {
+        document_type: 'NIF',
+        document_id: '',
+        expiration_date: '',
+        first_name: '',
+        last_name: '',
+        email: '',
+        phone_number: '',
+        address: '',
+        birth_date: ''
+      },
+    });
 
   const {
     handleSubmit: handleRentSubmit,
@@ -141,6 +142,7 @@ function Rent() {
         await handleRGPDSubmit(onSubmitRGPD)();
         await handleRentSubmit(onSubmitRent)();
         console.log('Rent created successfully');
+        navigate({to: "/success"});
       } catch (err) {
         showToast('Ops! No se pudo crear la reserva.', 'Intenta de nuevo más tarde.', 'error');
         console.error('Error:', err);
@@ -156,7 +158,13 @@ function Rent() {
   });
 
   const handleUserFormSubmit: SubmitHandler<UserReadModel> = (data) => {
-      updateUserMutation.mutate({requestBody: data});
+    const formattedData = {
+      ...data,
+      expiration_date: format(parseISO(data.expiration_date || ''), 'yyyy-MM-dd'),
+      birth_date: format(parseISO(data.birth_date || ''), 'yyyy-MM-dd'),
+    };
+
+    updateUserMutation.mutate({requestBody: formattedData});
   };
 
   const addRent = async (data: RentCreateModel) => {
@@ -212,7 +220,6 @@ function Rent() {
             p={5}
           >
             <Box borderWidth="1px" borderRadius="lg" p={5}>
-              <form onSubmit={handleUserSubmit(handleUserFormSubmit)}>
                 <VStack spacing={4} align="stretch">
                                   <Text fontSize="xl" fontWeight="bold">Datos conductor:</Text>
                   {isLoggedIn() ? (
@@ -280,7 +287,7 @@ function Rent() {
                       <FormControl id="rgpd">
                         <Checkbox {...rgpdRegister('rgpd')} colorScheme="green" required>
                           Acepto la política de privacidad
-                          <Text as={Link} to="/privacy" color="green.400"> *</Text>
+                          <Text as={Link} to="/privacy" color="red"> *</Text>
                         </Checkbox>
                       </FormControl>
                       <FormControl id="lssi">
@@ -332,12 +339,11 @@ function Rent() {
                       <ModalHeader>Pago con tarjeta 💳</ModalHeader>
                       <ModalCloseButton />
                       <ModalBody>
-                        <PaymentGateway onClose={onClose} total_price={parseFloat(total_price)} />
+                        <PaymentGateway onClose={onClose} total_price={parseFloat(total_price)} handleUserFormSubmit={handleUserSubmit(handleUserFormSubmit)} />
                       </ModalBody>
                     </ModalContent>
                   </Modal>
                 </VStack>
-              </form>
             </Box>
             <GridItem borderWidth="1px" borderRadius="lg" p={5}>
               {loading ? (

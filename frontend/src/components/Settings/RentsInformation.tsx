@@ -16,7 +16,6 @@ import { format } from 'date-fns'
 
 const RentsInformation: React.FC = () => {
   const { colorMode } = useColorMode();
-  const textColor = colorMode === 'dark' ? 'white' : 'black';
   const { user } = useAuth()
   const [rents, setRents] = useState<RentReadModel[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -62,9 +61,6 @@ const RentsInformation: React.FC = () => {
   return (
     <>
       <Container maxW="container.xl" mb={10} p={4}>
-        <Heading size="lg" py={4} color={textColor} textAlign={{ base: 'center', md: 'left' }}>
-          Mis últimas reservas
-        </Heading>
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
           {currentPageData}
         </SimpleGrid>

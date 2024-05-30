@@ -1,9 +1,7 @@
 import {Box, FormControl, FormLabel, Input, VStack, Flex, HStack, Button, Text, Image, Center} from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import React, { useState } from 'react';
-import useCustomToast from "../../hooks/useCustomToast.ts";
 import {CheckIcon} from "@chakra-ui/icons";
-import {useNavigate} from "@tanstack/react-router";
 import qrcode from "../../assets/images/Rent&You-qrcode.png";
 
 
@@ -17,23 +15,22 @@ type PaymentFormValues = {
 type PaymentGatewayProps = {
   onClose: () => void;
   total_price: number;
+  handleUserFormSubmit: () => void;
 };
 
-const PaymentGateway: React.FC<PaymentGatewayProps> = ({onClose, total_price}) => {
+const PaymentGateway: React.FC<PaymentGatewayProps> = ({onClose, total_price, handleUserFormSubmit}) => {
   const { register, formState: { errors, isValid }} = useForm<PaymentFormValues>({ mode: 'onChange' });
   const [isLoading, setIsLoading] = useState(false);
   const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
-  const toast = useCustomToast();
-  const navigate = useNavigate();
 
   const handlePayment = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsPaymentSuccessful(true);
       setIsLoading(false);
-      toast("Pago realizado","El pago se ha realizado con éxito.", "success");
+      // toast("Pago realizado","El pago se ha realizado con éxito.", "success");
       onClose();
-      navigate({to: "/success"});
+      handleUserFormSubmit();
     }, 2000);
   };
 

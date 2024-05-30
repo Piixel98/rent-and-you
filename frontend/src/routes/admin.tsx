@@ -49,7 +49,7 @@ function AdminPanel() {
       <UserMenu />
       <Container mt={50} ml={10} maxW="full">
         <Heading color={"green.400"} size="lg" textAlign={{ base: 'center', md: 'left' }} py={12}>
-          Admin Panel
+          Panel de administración
         </Heading>
         <VStack mb="60" spacing={8} align="stretch">
           {isLoggedIn() ? (

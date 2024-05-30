@@ -44,7 +44,7 @@ function UserSettings() {
       <>
         <NavBarWithSubnavigation />
         <UserMenu />
-        <Container maxW="container.lg" mt={10} p={4} mb={100}>
+        <Container maxW="container.lg" mt={50} ml={10} p={4} mb={100}>
           <Heading color={"green.400"} size="lg" textAlign={{ base: 'center', md: 'left' }} py={12}>
             Bienvenido {user?.first_name}
           </Heading>
