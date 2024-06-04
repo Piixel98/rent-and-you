@@ -97,7 +97,7 @@ function LoginUser({nextUrl = '/'}: { nextUrl?: string }) {
                         justify={'space-between'}>
                         <Checkbox colorScheme="green">Recordar sesión</Checkbox>
                       </Stack>
-                      <Link color={'green.400'}>Forgot password?</Link>
+                      <Link color={'green.400'}>¿Olvidaste la contraseña?</Link>
                       <Link href="/signup" color={'green.400'}> ¿No tienes cuenta?</Link>
                       <Button
                         type="submit"
